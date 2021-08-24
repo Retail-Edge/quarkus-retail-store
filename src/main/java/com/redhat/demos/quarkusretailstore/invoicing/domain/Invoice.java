@@ -2,6 +2,8 @@ package com.redhat.demos.quarkusretailstore.invoicing.domain;
 
 import com.redhat.demos.quarkusretailstore.invoicing.CreateInvoiceCommand;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
+import io.smallrye.config.ConfigMapping;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,21 +15,23 @@ import java.util.Collection;
  */
 public class Invoice {
 
+    @ConfigProperty(name = "storeId", defaultValue = "TEST")
+    String storeId;
+
     InvoiceRecord invoiceRecord;
 
     public static Invoice from(InvoiceRecord invoiceRecord) {
         return new Invoice(invoiceRecord);
     }
 
-    public static Invoice from(InvoiceDTO invoiceDTO) {
+    public Invoice(InvoiceDTO invoiceDTO) {
 
         // create an InvoiceHeader from the DTO
         InvoiceHeader invoiceHeader = new InvoiceHeader();
         invoiceHeader.setDate(invoiceDTO.getInvoiceHeader().getDate());
-        invoiceHeader.setStoreId(invoiceDTO.getInvoiceHeader().getStoreId());
+        invoiceHeader.setStoreId(storeId);
         invoiceHeader.setNumberOfLines(invoiceDTO.getInvoiceHeader().getNumberOfLines());
         invoiceHeader.setTotalDollarAmount(invoiceDTO.getInvoiceHeader().getTotalDollarAmount());
-        invoiceHeader.setId(invoiceDTO.getInvoiceHeader().getId());
 
         // create a Collection of InvoiceLines from the DTO
         Collection<InvoiceLine> invoiceLines = new ArrayList<>(invoiceDTO.getInvoiceLines().size());
@@ -35,7 +39,6 @@ public class Invoice {
             InvoiceLine invoiceLine = new InvoiceLine();
             invoiceLine.setBillQuantity(invoiceLineDTO.getBillQuantity());
             invoiceLine.setExtendedPrice(invoiceLineDTO.getExtendedPrice());
-            invoiceLine.setSkuId(invoiceLineDTO.getSkuId());
             invoiceLine.setProductDescripiton(invoiceLineDTO.getProductDescripiton());
             invoiceLines.add(invoiceLine);
         });
@@ -46,31 +49,6 @@ public class Invoice {
                 invoiceHeader,
                 invoiceLines,
                 invoiceDTO.getCustomerName());
-
-        return new Invoice(invoiceRecord);
-    }
-
-    public static Invoice createFrom(final CreateInvoiceCommand createInvoiceCommand) {
-
-        InvoiceRecord invoiceRecord = new InvoiceRecord();
-        BigDecimal totalDollarAmount = new BigDecimal(0.0);
-        createInvoiceCommand.getInvoiceLines().forEach(lineItem -> {
-            InvoiceLine invoiceLine = new InvoiceLine();
-            invoiceLine.setSkuId(lineItem.getSkuId());
-            invoiceLine.setUnitOfMeasure(lineItem.getUnitOfMeasure());
-            invoiceLine.setExtendedPrice(lineItem.getBillQuantity().multiply(lineItem.getPrice()));
-            invoiceLine.setBillQuantity(lineItem.getBillQuantity());
-            invoiceLine.setProductDescripiton(lineItem.getProductDescripiton());
-            invoiceRecord.invoiceLines.add(invoiceLine);
-            totalDollarAmount.add(invoiceLine.getExtendedPrice());
-        });
-        InvoiceHeader invoiceHeader = new InvoiceHeader();
-        invoiceHeader.setStoreId(createInvoiceCommand.getStoreId());
-        invoiceHeader.setDate(Calendar.getInstance().getTime());
-        invoiceHeader.setNumberOfLines(createInvoiceCommand.getInvoiceLines().size());
-        //TODO fix this
-        invoiceHeader.setTotalDollarAmount(totalDollarAmount.doubleValue());
-        return new Invoice(invoiceRecord);
     }
 
     private Invoice(final InvoiceRecord record) {

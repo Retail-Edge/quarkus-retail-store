@@ -3,15 +3,12 @@ package com.redhat.demos.quarkusretailstore.products;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class ProductMaster extends PanacheEntityBase {
 
-    @Id
-    @Column(nullable = false, unique = true, name = "product_id")
+    @Id @Column(nullable = false, unique = true, name = "sku_id") @GeneratedValue(strategy = GenerationType.IDENTITY)
     String skuId;
 
     String description;

@@ -27,7 +27,7 @@ public class InvoiceResourceTest {
     @Test
     public void testCreateInvoice() {
 
-        InvoiceHeaderJson invoiceHeaderJson = new InvoiceHeaderJson(UUID.randomUUID().toString(), "ATLANTA-01", Date.from(Instant.now()), 35.99, 2);
+        InvoiceHeaderJson invoiceHeaderJson = new InvoiceHeaderJson(UUID.randomUUID().toString(), Date.from(Instant.now()), 35.99, 2);
         Collection<InvoiceLineJson> invoiceLineJsonCollection = new ArrayList(
                 Arrays.asList(new InvoiceLineJson(UUID.randomUUID().toString(), "A product description", BigDecimal.valueOf(1), 21.99, BigDecimal.valueOf(25.99), UnitOfMeasure.EACH))
         );

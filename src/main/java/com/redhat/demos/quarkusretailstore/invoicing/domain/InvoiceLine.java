@@ -2,15 +2,18 @@ package com.redhat.demos.quarkusretailstore.invoicing.domain;
 
 import com.redhat.demos.quarkusretailstore.invoicing.UnitOfMeasure;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceLineDTO;
+import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
 @Entity
 public class InvoiceLine extends PanacheEntity {
 
-    String skuId;
+    @ManyToOne
+    ProductMaster productMaster;
 
     String productDescripiton;
 
@@ -26,8 +29,8 @@ public class InvoiceLine extends PanacheEntity {
 
     }
 
-    public InvoiceLine(String skuId, String productDescripiton, BigDecimal billQuantity, Double unitPrice, BigDecimal extendedPrice, UnitOfMeasure unitOfMeasure) {
-        this.skuId = skuId;
+    public InvoiceLine(ProductMaster productMaster, String productDescripiton, BigDecimal billQuantity, Double unitPrice, BigDecimal extendedPrice, UnitOfMeasure unitOfMeasure) {
+        this.productMaster = productMaster;
         this.productDescripiton = productDescripiton;
         this.billQuantity = billQuantity;
         this.unitPrice = unitPrice;
@@ -43,7 +46,6 @@ public class InvoiceLine extends PanacheEntity {
         InvoiceLine that = (InvoiceLine) o;
 
         if (billQuantity != that.billQuantity) return false;
-        if (skuId != null ? !skuId.equals(that.skuId) : that.skuId != null) return false;
         if (productDescripiton != null ? !productDescripiton.equals(that.productDescripiton) : that.productDescripiton != null)
             return false;
         if (unitPrice != null ? !unitPrice.equals(that.unitPrice) : that.unitPrice != null) return false;
@@ -54,9 +56,9 @@ public class InvoiceLine extends PanacheEntity {
 
     @Override
     public int hashCode() {
-        int result = skuId != null ? skuId.hashCode() : 0;
+        int result = productMaster != null ? productMaster.hashCode() : 0;
         result = 31 * result + (productDescripiton != null ? productDescripiton.hashCode() : 0);
-        result = 31 * result + billQuantity.intValue();
+        result = 31 * result + (billQuantity != null ? billQuantity.hashCode() : 0);
         result = 31 * result + (unitPrice != null ? unitPrice.hashCode() : 0);
         result = 31 * result + (extendedPrice != null ? extendedPrice.hashCode() : 0);
         result = 31 * result + (unitOfMeasure != null ? unitOfMeasure.hashCode() : 0);
@@ -66,8 +68,7 @@ public class InvoiceLine extends PanacheEntity {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InvoiceLine{");
-        sb.append("skuId='").append(skuId).append('\'');
-        sb.append(", productDescripiton='").append(productDescripiton).append('\'');
+        sb.append("productDescripiton='").append(productDescripiton).append('\'');
         sb.append(", billQuantity=").append(billQuantity);
         sb.append(", unitPrice=").append(unitPrice);
         sb.append(", extendedPrice=").append(extendedPrice);
@@ -75,14 +76,6 @@ public class InvoiceLine extends PanacheEntity {
         sb.append(", id=").append(id);
         sb.append('}');
         return sb.toString();
-    }
-
-    public String getSkuId() {
-        return skuId;
-    }
-
-    public void setSkuId(String skuId) {
-        this.skuId = skuId;
     }
 
     public String getProductDescripiton() {

@@ -4,13 +4,13 @@ import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceHeaderDTO;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-public
-class InvoiceHeader extends PanacheEntity {
-
-    String id;
+public class InvoiceHeader extends PanacheEntity {
 
     String storeId;
 
@@ -24,8 +24,7 @@ class InvoiceHeader extends PanacheEntity {
 
     }
 
-    public InvoiceHeader(String id, String storeId, Date date, Double totalDollarAmount, int numberOfLines) {
-        this.id = id;
+    public InvoiceHeader(String storeId, Date date, Double totalDollarAmount, int numberOfLines) {
         this.storeId = storeId;
         this.date = date;
         this.totalDollarAmount = totalDollarAmount;
@@ -69,13 +68,6 @@ class InvoiceHeader extends PanacheEntity {
         return result;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getStoreId() {
         return storeId;

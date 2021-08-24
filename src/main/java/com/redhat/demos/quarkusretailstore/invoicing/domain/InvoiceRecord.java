@@ -12,7 +12,7 @@ import java.util.Collection;
 @Entity
 class InvoiceRecord extends PanacheEntityBase {
 
-    @Id @Column(nullable = false, unique = true, name = "invoice_id")
+    @Id @Column(nullable = false, unique = true, name = "invoice_id") @GeneratedValue(strategy = GenerationType.IDENTITY)
     String invoiceId;
 
     @OneToOne

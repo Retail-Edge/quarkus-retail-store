@@ -3,17 +3,21 @@ package com.redhat.demos.quarkusretailstore.invoicing;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceService;
 import com.redhat.demos.quarkusretailstore.invoicing.domain.Invoice;
+import com.redhat.demos.quarkusretailstore.invoicing.domain.InvoiceRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class InvoiceServiceImpl implements InvoiceService {
 
+    @Inject
+    InvoiceRepository invoiceRepository;
 
     @Override
-    public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) {
+    public InvoiceDTO createInvoice(final InvoiceDTO invoiceDTO) {
 
-        Invoice invoice = Invoice.from(invoiceDTO);
+        Invoice invoice = new Invoice(invoiceDTO);
         return invoiceDTO;
     }
 

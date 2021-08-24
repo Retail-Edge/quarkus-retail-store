@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "05a4a168-40e9-4c70-ada5-e77e581a64e0",
+		"name": "Retail Edge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Inventory",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"productMaster\":{\"skuId\":\"58d1874e-f733-4ac1-8b79-1deaa074d461\",\"description\":\"A product description\"},\"unitCost\":19.99,\"maxRetailPrice\":24.99,\"orderQuantity\":1,\"inStockQuantity\":9,\"backOrderQuantity\":0,\"lastStockDate\":\"2021-08-20T20:03:52.992+00:00\",\"lastSaleDate\":\"2021-08-20T20:03:52.992+00:00\",\"minimumQuantity\":10,\"maximumQuantity\":15}"
+				},
+				"url": {
+					"raw": "localhost:8080/inventory",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Inventory",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/inventory",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Iinventory",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"productMaster\":{\"skuId\":\"58d1874e-f733-4ac1-8b79-1deaa074d461\",\"description\":\"A product description\"},\"unitCost\":19.99,\"maxRetailPrice\":24.99,\"orderQuantity\":1,\"inStockQuantity\":9,\"backOrderQuantity\":0,\"lastStockDate\":\"2021-08-20T20:03:52.992+00:00\",\"lastSaleDate\":\"2021-08-20T20:03:52.992+00:00\",\"minimumQuantity\":10,\"maximumQuantity\":20}"
+				},
+				"url": {
+					"raw": "localhost:8080/inventory",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}

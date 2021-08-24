@@ -10,8 +10,6 @@ public class InvoiceHeaderJson {
 
     final String id;
 
-    final String storeId;
-
     final Date date;
 
     final Double totalDollarAmount;
@@ -19,9 +17,8 @@ public class InvoiceHeaderJson {
     final int numberOfLines;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public InvoiceHeaderJson(@JsonProperty("id") String id, @JsonProperty("storeId") String storeId, @JsonProperty("date") Date date, @JsonProperty("totalDollarAmount") Double totalDollarAmount, @JsonProperty("numberOfLines") int numberOfLines) {
+    public InvoiceHeaderJson(@JsonProperty("id") String id, @JsonProperty("date") Date date, @JsonProperty("totalDollarAmount") Double totalDollarAmount, @JsonProperty("numberOfLines") int numberOfLines) {
         this.id = id;
-        this.storeId = storeId;
         this.date = date;
         this.totalDollarAmount = totalDollarAmount;
         this.numberOfLines = numberOfLines;
@@ -30,7 +27,6 @@ public class InvoiceHeaderJson {
     public InvoiceHeaderJson(final InvoiceHeaderDTO invoiceHeaderDTO) {
 
         this.id = invoiceHeaderDTO.getId();
-        this.storeId = invoiceHeaderDTO.getStoreId();
         this.date = invoiceHeaderDTO.getDate();
         this.totalDollarAmount = invoiceHeaderDTO.getTotalDollarAmount();
         this.numberOfLines = invoiceHeaderDTO.getNumberOfLines();
@@ -40,7 +36,6 @@ public class InvoiceHeaderJson {
     public String toString() {
         final StringBuilder sb = new StringBuilder("InvoiceHeaderJson{");
         sb.append("id='").append(id).append('\'');
-        sb.append(", storeId='").append(storeId).append('\'');
         sb.append(", date=").append(date);
         sb.append(", totalDollarAmount=").append(totalDollarAmount);
         sb.append(", numberOfLines=").append(numberOfLines);
@@ -57,7 +52,6 @@ public class InvoiceHeaderJson {
 
         if (numberOfLines != that.numberOfLines) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (storeId != null ? !storeId.equals(that.storeId) : that.storeId != null) return false;
         if (date != null ? !date.equals(that.date) : that.date != null) return false;
         return totalDollarAmount != null ? totalDollarAmount.equals(that.totalDollarAmount) : that.totalDollarAmount == null;
     }
@@ -65,7 +59,6 @@ public class InvoiceHeaderJson {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (storeId != null ? storeId.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + (totalDollarAmount != null ? totalDollarAmount.hashCode() : 0);
         result = 31 * result + numberOfLines;
@@ -74,10 +67,6 @@ public class InvoiceHeaderJson {
 
     public String getId() {
         return id;
-    }
-
-    public String getStoreId() {
-        return storeId;
     }
 
     public Date getDate() {
