@@ -37,6 +37,8 @@ public class InventoryResource {
     public Response createInventory(final InventoryJson inventoryJson) {
 
         LOGGER.debug("creating inventory from: {}", inventoryJson);
+
+
         InventoryDTO inventoryDTO = new InventoryDTO(
                 inventoryJson.productMaster,
                 inventoryJson.unitCost,
@@ -53,7 +55,7 @@ public class InventoryResource {
         return Response.status(Response.Status.CREATED).entity(result).build();
     }
 
-    @PATCH
+    @PUT
     public Response updateInventory(final InventoryJson inventoryJson) {
 
         LOGGER.debug("updating inventory from: {}", inventoryJson);

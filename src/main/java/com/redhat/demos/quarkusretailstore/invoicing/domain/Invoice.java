@@ -2,6 +2,7 @@ package com.redhat.demos.quarkusretailstore.invoicing.domain;
 
 import com.redhat.demos.quarkusretailstore.invoicing.CreateInvoiceCommand;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
+import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import io.smallrye.config.ConfigMapping;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * Domain object representing Invoices
@@ -36,10 +38,16 @@ public class Invoice {
         // create a Collection of InvoiceLines from the DTO
         Collection<InvoiceLine> invoiceLines = new ArrayList<>(invoiceDTO.getInvoiceLines().size());
         invoiceDTO.getInvoiceLines().forEach(invoiceLineDTO -> {
-            InvoiceLine invoiceLine = new InvoiceLine();
+            InvoiceLine invoiceLine = new InvoiceLine(
+                    new ProductMaster(invoiceLineDTO.getProductMaster().getSkuId(), invoiceLineDTO.getProductMaster().getDescription()),
+                    invoiceLineDTO.getBillQuantity(),
+                    invoiceLineDTO.getUnitPrice(),
+                    invoiceLineDTO.getExtendedPrice(),
+                    invoiceLineDTO.getUnitOfMeasure()
+            );
+
             invoiceLine.setBillQuantity(invoiceLineDTO.getBillQuantity());
             invoiceLine.setExtendedPrice(invoiceLineDTO.getExtendedPrice());
-            invoiceLine.setProductDescripiton(invoiceLineDTO.getProductDescripiton());
             invoiceLines.add(invoiceLine);
         });
 

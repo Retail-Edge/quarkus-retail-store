@@ -4,6 +4,8 @@ import com.redhat.demos.quarkusretailstore.invoicing.UnitOfMeasure;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceLineDTO;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -12,7 +14,7 @@ import java.math.BigDecimal;
 @Entity
 public class InvoiceLine extends PanacheEntity {
 
-    @ManyToOne
+    @ManyToOne @Cascade(CascadeType.LOCK)
     ProductMaster productMaster;
 
     String productDescripiton;
@@ -29,9 +31,8 @@ public class InvoiceLine extends PanacheEntity {
 
     }
 
-    public InvoiceLine(ProductMaster productMaster, String productDescripiton, BigDecimal billQuantity, Double unitPrice, BigDecimal extendedPrice, UnitOfMeasure unitOfMeasure) {
+    public InvoiceLine(ProductMaster productMaster, BigDecimal billQuantity, Double unitPrice, BigDecimal extendedPrice, UnitOfMeasure unitOfMeasure) {
         this.productMaster = productMaster;
-        this.productDescripiton = productDescripiton;
         this.billQuantity = billQuantity;
         this.unitPrice = unitPrice;
         this.extendedPrice = extendedPrice;
@@ -76,6 +77,14 @@ public class InvoiceLine extends PanacheEntity {
         sb.append(", id=").append(id);
         sb.append('}');
         return sb.toString();
+    }
+
+    public ProductMaster getProductMaster() {
+        return productMaster;
+    }
+
+    public void setProductMaster(ProductMaster productMaster) {
+        this.productMaster = productMaster;
     }
 
     public String getProductDescripiton() {

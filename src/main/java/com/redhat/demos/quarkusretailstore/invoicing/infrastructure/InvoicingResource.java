@@ -1,11 +1,8 @@
 package com.redhat.demos.quarkusretailstore.invoicing.infrastructure;
 
 import com.redhat.demos.quarkusretailstore.invoicing.NoSuchInvoiceException;
-import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
-import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceHeaderDTO;
-import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceLineDTO;
-import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceService;
-import com.redhat.demos.quarkusretailstore.ui.api.InvoiceHeaderJson;
+import com.redhat.demos.quarkusretailstore.invoicing.api.*;
+import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import com.redhat.demos.quarkusretailstore.ui.api.InvoiceJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +11,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Path("/invoicing")
@@ -33,15 +31,13 @@ public class InvoicingResource {
         InvoiceDTO invoiceDTO = new InvoiceDTO(
                 invoiceJson.getInvoiceId(),
                 new InvoiceHeaderDTO(
-                        invoiceJson.getInvoiceHeader().getId(),
                         invoiceJson.getInvoiceHeader().getStoreId(),
                         invoiceJson.getInvoiceHeader().getDate(),
                         invoiceJson.getInvoiceHeader().getTotalDollarAmount(),
                         invoiceJson.getInvoiceHeader().getNumberOfLines()),
                         invoiceJson.getInvoiceLines().stream().map(invoiceLineJson -> {
                             return new InvoiceLineDTO(
-                                    invoiceLineJson.getSkuId(),
-                                    invoiceLineJson.getProductDescripiton(),
+                                    new ProductMaster(invoiceLineJson.getProductMaster().getSkuId(), invoiceLineJson.getProductMaster().getDescription()),
                                     invoiceLineJson.getBillQuantity(),
                                     invoiceLineJson.getUnitPrice(),
                                     invoiceLineJson.getExtendedPrice(),

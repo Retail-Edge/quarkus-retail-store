@@ -6,7 +6,7 @@ public interface InventoryService {
 
     Collection<InventoryDTO> getCompeleteInventory();
 
-    InventoryDTO addInventory(final InventoryDTO inventoryJson);
+    InventoryDTO addInventory(final InventoryDTO inventoryDTO);
 
-    InventoryDTO updateInventory(final InventoryDTO inventoryJson) throws NoSuchInventoryRecordException;
+    InventoryDTO updateInventory(final InventoryDTO inventoryDTO) throws NoSuchInventoryRecordException;
 }

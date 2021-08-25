@@ -3,6 +3,10 @@ package com.redhat.demos.quarkusretailstore.inventory;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.inventory.api.NoSuchInventoryRecordException;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
+import com.redhat.demos.quarkusretailstore.products.ProductMaster;
+import com.redhat.demos.quarkusretailstore.products.ProductMasterRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -13,8 +17,13 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class InventoryServiceImpl implements InventoryService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(InventoryServiceImpl.class);
+
     @Inject
     InventoryRepository inventoryRepository;
+
+    @Inject
+    ProductMasterRepository productMasterRepository;
 
     @Override
     public Collection<InventoryDTO> getCompeleteInventory() {
@@ -25,15 +34,29 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override @Transactional
-    public InventoryDTO addInventory(final InventoryDTO inventoryJson) {
+    public InventoryDTO addInventory(final InventoryDTO inventoryDTO) {
 
-        Inventory inventory = Inventory.from(inventoryJson);
+        LOGGER.debug("adding: {}", inventoryDTO);
+        ProductMaster productMaster = ProductMaster.findBySkuId(inventoryDTO.getProductMaster().getSkuId());
+        Inventory inventory = new Inventory(
+                productMaster,
+                inventoryDTO.getUnitCost(),
+                inventoryDTO.getMaxRetailPrice(),
+                inventoryDTO.getOrderQuantity(),
+                inventoryDTO.getInStockQuantity(),
+                inventoryDTO.getBackOrderQuantity(),
+                inventoryDTO.getLastStockDate(),
+                inventoryDTO.getLastSaleDate(),
+                inventoryDTO.getMinimumQuantity(),
+                inventoryDTO.getMaximumQuantity()
+        );
         inventoryRepository.persist(inventory);
         return inventory.toInventoryDTO();
     }
 
     @Override @Transactional
     public InventoryDTO updateInventory(final InventoryDTO inventoryDTO) throws NoSuchInventoryRecordException {
+        LOGGER.debug("updating: {}", inventoryDTO);
         Inventory inventory = inventoryRepository.findById(inventoryDTO.getProductMaster().getSkuId());
         if (inventory == null) {
             throw new NoSuchInventoryRecordException(inventoryDTO.getProductMaster().getSkuId());

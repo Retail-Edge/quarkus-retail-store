@@ -4,15 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.redhat.demos.quarkusretailstore.invoicing.UnitOfMeasure;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceLineDTO;
-import com.redhat.demos.quarkusretailstore.invoicing.domain.InvoiceLine;
 
 import java.math.BigDecimal;
 
 public class InvoiceLineJson {
 
-    final String skuId;
-
-    final String productDescripiton;
+    final ProductMasterJson productMaster;
 
     final BigDecimal billQuantity;
 
@@ -23,9 +20,8 @@ public class InvoiceLineJson {
     final UnitOfMeasure unitOfMeasure;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public InvoiceLineJson(@JsonProperty("skuId") String skuId, @JsonProperty("productDescripiton") String productDescripiton, @JsonProperty("billQuantity") BigDecimal billQuantity, @JsonProperty("unitPrice") Double unitPrice, @JsonProperty("extendedPrice") BigDecimal extendedPrice, @JsonProperty("unitOfMeasure") UnitOfMeasure unitOfMeasure) {
-        this.skuId = skuId;
-        this.productDescripiton = productDescripiton;
+    public InvoiceLineJson(@JsonProperty("productMaster") ProductMasterJson productMasterJson, @JsonProperty("billQuantity") BigDecimal billQuantity, @JsonProperty("unitPrice") Double unitPrice, @JsonProperty("extendedPrice") BigDecimal extendedPrice, @JsonProperty("unitOfMeasure") UnitOfMeasure unitOfMeasure) {
+        this.productMaster = productMasterJson;
         this.billQuantity = billQuantity;
         this.unitPrice = unitPrice;
         this.extendedPrice = extendedPrice;
@@ -33,8 +29,7 @@ public class InvoiceLineJson {
     }
 
     public InvoiceLineJson(final InvoiceLineDTO invoiceLineDTO) {
-        this.skuId = invoiceLineDTO.getSkuId();
-        this.productDescripiton = invoiceLineDTO.getProductDescripiton();
+        this.productMaster = new ProductMasterJson(invoiceLineDTO.getProductMaster().getSkuId(), invoiceLineDTO.getProductMaster().getDescription());
         this.billQuantity = invoiceLineDTO.getBillQuantity();
         this.unitPrice = invoiceLineDTO.getUnitPrice();
         this.extendedPrice = invoiceLineDTO.getExtendedPrice();
@@ -44,8 +39,7 @@ public class InvoiceLineJson {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InvoiceLineJson{");
-        sb.append("skuId='").append(skuId).append('\'');
-        sb.append(", productDescripiton='").append(productDescripiton).append('\'');
+        sb.append("productMaster=").append(productMaster);
         sb.append(", billQuantity=").append(billQuantity);
         sb.append(", unitPrice=").append(unitPrice);
         sb.append(", extendedPrice=").append(extendedPrice);
@@ -61,8 +55,7 @@ public class InvoiceLineJson {
 
         InvoiceLineJson that = (InvoiceLineJson) o;
 
-        if (skuId != null ? !skuId.equals(that.skuId) : that.skuId != null) return false;
-        if (productDescripiton != null ? !productDescripiton.equals(that.productDescripiton) : that.productDescripiton != null)
+        if (productMaster != null ? !productMaster.equals(that.productMaster) : that.productMaster != null)
             return false;
         if (billQuantity != null ? !billQuantity.equals(that.billQuantity) : that.billQuantity != null) return false;
         if (unitPrice != null ? !unitPrice.equals(that.unitPrice) : that.unitPrice != null) return false;
@@ -73,8 +66,7 @@ public class InvoiceLineJson {
 
     @Override
     public int hashCode() {
-        int result = skuId != null ? skuId.hashCode() : 0;
-        result = 31 * result + (productDescripiton != null ? productDescripiton.hashCode() : 0);
+        int result = productMaster != null ? productMaster.hashCode() : 0;
         result = 31 * result + (billQuantity != null ? billQuantity.hashCode() : 0);
         result = 31 * result + (unitPrice != null ? unitPrice.hashCode() : 0);
         result = 31 * result + (extendedPrice != null ? extendedPrice.hashCode() : 0);
@@ -82,12 +74,8 @@ public class InvoiceLineJson {
         return result;
     }
 
-    public String getSkuId() {
-        return skuId;
-    }
-
-    public String getProductDescripiton() {
-        return productDescripiton;
+    public ProductMasterJson getProductMaster() {
+        return productMaster;
     }
 
     public BigDecimal getBillQuantity() {

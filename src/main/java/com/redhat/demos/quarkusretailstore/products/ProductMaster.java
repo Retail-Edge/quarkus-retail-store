@@ -1,14 +1,14 @@
 package com.redhat.demos.quarkusretailstore.products;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-@Entity
-public class ProductMaster extends PanacheEntityBase {
+@Entity  @NamedQuery(name = "ProductMaster.findBySkuId", query = "from ProductMaster where skuId = ?1")
+public class ProductMaster extends PanacheEntity {
 
-    @Id @Column(nullable = false, unique = true, name = "sku_id") @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true)
     String skuId;
 
     String description;
@@ -18,7 +18,15 @@ public class ProductMaster extends PanacheEntityBase {
         this.description = description;
     }
 
+    public ProductMaster(String description) {
+        this.description = description;
+    }
+
     public ProductMaster() {
+    }
+
+    public static ProductMaster findBySkuId(final String skuId) {
+        return find("#ProductMaster.findBySkuId", skuId).firstResult();
     }
 
     @Override

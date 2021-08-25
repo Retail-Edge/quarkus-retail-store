@@ -1,6 +1,7 @@
 package com.redhat.demos.quarkusretailstore.invoicing.domain;
 
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
@@ -10,9 +11,9 @@ import java.util.Collection;
  * Entity storing Invoice data
  */
 @Entity
-class InvoiceRecord extends PanacheEntityBase {
+class InvoiceRecord extends PanacheEntity {
 
-    @Id @Column(nullable = false, unique = true, name = "invoice_id") @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "invoice_id", nullable = false, unique = true) @GeneratedValue(strategy = GenerationType.IDENTITY)
     String invoiceId;
 
     @OneToOne

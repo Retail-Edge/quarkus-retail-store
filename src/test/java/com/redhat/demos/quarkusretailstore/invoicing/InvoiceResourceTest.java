@@ -5,6 +5,7 @@ import com.redhat.demos.quarkusretailstore.ui.InventoryJson;
 import com.redhat.demos.quarkusretailstore.ui.api.InvoiceHeaderJson;
 import com.redhat.demos.quarkusretailstore.ui.api.InvoiceJson;
 import com.redhat.demos.quarkusretailstore.ui.api.InvoiceLineJson;
+import com.redhat.demos.quarkusretailstore.ui.api.ProductMasterJson;
 import com.redhat.demos.quarkusretailstore.utils.JsonUtil;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -29,7 +30,7 @@ public class InvoiceResourceTest {
 
         InvoiceHeaderJson invoiceHeaderJson = new InvoiceHeaderJson(UUID.randomUUID().toString(), Date.from(Instant.now()), 35.99, 2);
         Collection<InvoiceLineJson> invoiceLineJsonCollection = new ArrayList(
-                Arrays.asList(new InvoiceLineJson(UUID.randomUUID().toString(), "A product description", BigDecimal.valueOf(1), 21.99, BigDecimal.valueOf(25.99), UnitOfMeasure.EACH))
+                Arrays.asList(new InvoiceLineJson(new ProductMasterJson(UUID.randomUUID().toString(), "A product description"), BigDecimal.valueOf(1), 21.99, BigDecimal.valueOf(25.99), UnitOfMeasure.EACH))
         );
         InvoiceJson invoiceJson = new InvoiceJson(UUID.randomUUID().toString(), invoiceHeaderJson, invoiceLineJsonCollection, "Eeyore");
 

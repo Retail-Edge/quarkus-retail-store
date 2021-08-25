@@ -11,4 +11,5 @@ class InventoryRepository implements PanacheRepository<Inventory> {
     protected Inventory findById(final String skuId) {
         return Inventory.find("productMaster.skuId", skuId).firstResult();
     }
+
 }

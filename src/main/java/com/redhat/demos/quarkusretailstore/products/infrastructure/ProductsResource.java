@@ -1,11 +1,15 @@
 package com.redhat.demos.quarkusretailstore.products.infrastructure;
 
+import com.redhat.demos.quarkusretailstore.invoicing.api.ProductMasterDTO;
 import com.redhat.demos.quarkusretailstore.products.NoSuchProductException;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
+import com.redhat.demos.quarkusretailstore.products.ProductMasterRepository;
+import com.redhat.demos.quarkusretailstore.ui.api.ProductMasterJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -19,12 +23,12 @@ public class ProductsResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductsResource.class);
 
     @Inject
-    ProductsService productsService;
+    ProductMasterRepository productMasterRepository;
 
     @GET
     public Response getProducts() {
 
-        Collection<ProductMaster> allProducts = productsService.getAllProducts();
+        Collection<ProductMaster> allProducts = productMasterRepository.listAll();
         LOGGER.debug("Returning {} products", allProducts.size());
         return Response.status(200).entity(allProducts).build();
     }
@@ -33,15 +37,16 @@ public class ProductsResource {
     @Path("/{id}")
     public Response getProduct(@PathParam("id") String skuId) {
 
-        ProductMaster productMaster = null;
-        try {
-            productMaster = productsService.getProductById(skuId);
-            LOGGER.debug("Returning {}", productMaster);
-            return Response.status(200).entity(productMaster).build();
-        } catch (NoSuchProductException e) {
-            LOGGER.error(e.getMessage());
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
+        ProductMaster productMaster = productMasterRepository.find("skuId", skuId).singleResult();
+        LOGGER.debug("Returning {}", productMaster);
+        return Response.status(200).entity(productMaster).build();
+    }
 
+    @POST@Transactional
+    public Response addProduct(final ProductMasterJson productMasterJson) {
+
+        ProductMaster productMasterDTO = new ProductMaster(productMasterJson.getSkuId(), productMasterJson.getDescription());
+        productMasterRepository.persist(productMasterDTO);
+        return Response.status(Response.Status.CREATED).entity(productMasterJson).build();
     }
 }

@@ -1,5 +1,6 @@
 package com.redhat.demos.quarkusretailstore.products;
 
+import com.redhat.demos.quarkusretailstore.invoicing.api.ProductMasterDTO;
 import com.redhat.demos.quarkusretailstore.products.infrastructure.ProductsService;
 import io.quarkus.test.Mock;
 
@@ -23,7 +24,12 @@ public class MockProductsService implements ProductsService {
     }
 
     @Override
-    public ProductMaster getProductById(String skuId) throws NoSuchProductException {
+    public ProductMaster getProductBySkuId(String skuId) throws NoSuchProductException {
         return new ProductMaster(skuId, "A mocked product");
+    }
+
+    @Override
+    public ProductMasterDTO addProduct(ProductMasterDTO productMasterDTO) {
+        return null;
     }
 }

@@ -3,10 +3,9 @@ package com.redhat.demos.quarkusretailstore.inventory;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import org.hibernate.annotations.Cascade;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -14,7 +13,7 @@ import java.util.Date;
 @Entity
 class Inventory extends PanacheEntity {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     ProductMaster productMaster;
 
     BigDecimal unitCost;
