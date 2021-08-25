@@ -119,10 +119,39 @@
 		},
 		{
 			"name": "New Request",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
-				"method": "GET",
-				"header": [],
-				"url": null
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productMaster\": {\n        \"skuId\": \"8b79-58d1874e-1deaa074d461-f733-4ac1\",\n        \"description\": \"A product\"\n    },\n    \"unitCost\": 19.99,\n    \"maxRetailPrice\": 24.99,\n    \"orderQuantity\": 1,\n    \"inStockQuantity\": 8,\n    \"backOrderQuantity\": 0,\n    \"lastStockDate\": \"2021-08-20T16:03:52.992\",\n    \"lastSaleDate\": \"2021-08-20T16:03:52.992\",\n    \"minimumQuantity\": 10,\n    \"maximumQuantity\": 15\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/inventory",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"inventory"
+					]
+				}
 			},
 			"response": []
 		}

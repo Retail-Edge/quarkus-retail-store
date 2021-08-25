@@ -80,6 +80,35 @@
                     },
                     "required": true
                 }
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InventoryRecord"
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        },
+        "/invoice/{id}": {
+
+        },
+        "/invoice": {
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Invoice"
+                            }
+                        }
+                    },
+                    "required": true
+                }
             }
         }
     },
@@ -155,6 +184,136 @@
                         "type": "integer"
                     },
                     "maximumQuantity": {
+                        "description": "",
+                        "type": "integer"
+                    }
+                }
+            },
+            "Invoice": {
+                "title": "Root Type for Invoice",
+                "description": "An invoice for a product",
+                "required": [
+                    "invoiceHeader"
+                ],
+                "type": "object",
+                "properties": {
+                    "invoiceId": {
+                        "type": "string"
+                    },
+                    "invoiceHeader": {
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "storeId": {
+                                "type": "string"
+                            },
+                            "date": {
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "totalDollarAmount": {
+                                "format": "double",
+                                "type": "number"
+                            },
+                            "numberOfLines": {
+                                "format": "int32",
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "invoiceLines": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "skuId": {
+                                    "type": "string"
+                                },
+                                "productDescripiton": {
+                                    "type": "string"
+                                },
+                                "billQuantity": {
+                                    "format": "int32",
+                                    "type": "integer"
+                                },
+                                "unitPrice": {
+                                    "format": "double",
+                                    "type": "number"
+                                },
+                                "extendedPrice": {
+                                    "format": "double",
+                                    "type": "number"
+                                },
+                                "unitOfMeasure": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "customerName": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "invoiceId": "58d1874e-f733-4ac1-8b79-1deaa074d461",
+                    "invoiceHeader": {
+                        "id": "58d1874e-f733-4ac1-8b79-1deaa074d461",
+                        "storeId": "ATLANTA-01",
+                        "date": "2021-08-20T16:03:52.992",
+                        "totalDollarAmount": 19.95,
+                        "numberOfLines": 2
+                    },
+                    "invoiceLines": [
+                        {
+                            "skuId": "58d1874e-f733-4ac1-8b79-1deaa074d461",
+                            "productDescripiton": "A product",
+                            "billQuantity": 3,
+                            "unitPrice": 12.95,
+                            "extendedPrice": 13.95,
+                            "unitOfMeasure": "EACH"
+                        },
+                        {
+                            "skuId": "58d1874e-f733-4ac1-8b79-1deaa074d461",
+                            "productDescripiton": "Another product",
+                            "billQuantity": 3,
+                            "unitPrice": 12.95,
+                            "extendedPrice": 13.95,
+                            "unitOfMeasure": "EACH"
+                        }
+                    ],
+                    "customerName": "Winnie the Pooh"
+                }
+            },
+            "InvoiceHeader": {
+                "description": "",
+                "required": [
+                    "id",
+                    "storeId",
+                    "date",
+                    "totalDollarAmount",
+                    "numberOfLines"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "storeId": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "date": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "totalDollarAmount": {
+                        "format": "double",
+                        "description": "",
+                        "type": "number"
+                    },
+                    "numberOfLines": {
                         "description": "",
                         "type": "integer"
                     }
