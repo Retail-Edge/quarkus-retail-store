@@ -42,6 +42,7 @@ public class InventoryServiceTest {
         assertEquals(1, completeInventory.size());
     }
 
+/*
     @Test @Order(3)
     public void testUpdatingInventory(){
 
@@ -76,6 +77,7 @@ public class InventoryServiceTest {
         assertEquals(expectedValue, updatedInventory.getOrderQuantity());
 
     }
+*/
 
     @Test
     @Order(2) @Transactional

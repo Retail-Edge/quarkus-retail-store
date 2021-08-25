@@ -45,7 +45,7 @@ public class ProductsResource {
     @POST@Transactional
     public Response addProduct(final ProductMasterJson productMasterJson) {
 
-        ProductMaster productMasterDTO = new ProductMaster(productMasterJson.getSkuId(), productMasterJson.getDescription());
+        ProductMaster productMasterDTO = new ProductMaster(productMasterJson.getDescription());
         productMasterRepository.persist(productMasterDTO);
         return Response.status(Response.Status.CREATED).entity(productMasterJson).build();
     }

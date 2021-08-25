@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +21,7 @@ public class ProductsServiceTest {
     @Inject
     ProductMasterRepository productMasterRepository;
 
-    @BeforeEach
+    @BeforeEach @Transactional
     public void setUp() {
         productMasterRepository.persist(new ProductMaster("A product"));
         productMasterRepository.persist(new ProductMaster("A second product"));

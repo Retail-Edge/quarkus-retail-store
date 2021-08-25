@@ -57,7 +57,7 @@ public class InventoryResourceTest {
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
-                .request("PATCH", "/inventory")
+                .request("PUT", "/inventory")
                 .then()
                 .statusCode(200);
     }
