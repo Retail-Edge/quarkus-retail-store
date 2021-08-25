@@ -30,6 +30,7 @@ public class MockProductsService implements ProductsService {
 
     @Override
     public ProductMasterDTO addProduct(ProductMasterDTO productMasterDTO) {
-        return null;
+
+        return new ProductMasterDTO(UUID.randomUUID().toString(), productMasterDTO.getDescription());
     }
 }

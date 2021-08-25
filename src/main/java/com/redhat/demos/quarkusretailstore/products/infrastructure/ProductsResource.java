@@ -25,10 +25,13 @@ public class ProductsResource {
     @Inject
     ProductMasterRepository productMasterRepository;
 
+    @Inject
+    ProductsService productsService;
+
     @GET
     public Response getProducts() {
 
-        Collection<ProductMaster> allProducts = productMasterRepository.listAll();
+        Collection<ProductMaster> allProducts = productsService.getAllProducts();
         LOGGER.debug("Returning {} products", allProducts.size());
         return Response.status(200).entity(allProducts).build();
     }
@@ -45,8 +48,8 @@ public class ProductsResource {
     @POST@Transactional
     public Response addProduct(final ProductMasterJson productMasterJson) {
 
-        ProductMaster productMasterDTO = new ProductMaster(productMasterJson.getDescription());
-        productMasterRepository.persist(productMasterDTO);
-        return Response.status(Response.Status.CREATED).entity(productMasterJson).build();
+        ProductMasterDTO productMasterDTO = new ProductMasterDTO(productMasterJson.getDescription());
+        ProductMasterDTO result = productsService.addProduct(productMasterDTO);
+        return Response.status(Response.Status.CREATED).entity(new ProductMasterJson(result.getSkuId(), result.getDescription())).build();
     }
 }

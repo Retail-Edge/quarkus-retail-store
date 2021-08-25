@@ -15,10 +15,19 @@ public class ProductMasterJson {
         this.description = description;
     }
 
+    public ProductMasterJson(String description) {
+        this.skuId = null;
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("ProductMasterJson{");
-        sb.append("skuId='").append(skuId).append('\'');
+        if (this.skuId == null) {
+            sb.append("skuId='null\'");
+        }else{
+            sb.append("skuId='").append(skuId).append('\'');
+        }
         sb.append(", description='").append(description).append('\'');
         sb.append('}');
         return sb.toString();

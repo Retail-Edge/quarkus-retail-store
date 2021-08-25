@@ -11,6 +11,11 @@ public class ProductMasterDTO {
         this.description = description;
     }
 
+    public ProductMasterDTO(String description) {
+        skuId = null;
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("ProductMasterDTO{");

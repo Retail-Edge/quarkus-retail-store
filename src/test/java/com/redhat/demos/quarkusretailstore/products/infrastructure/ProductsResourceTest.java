@@ -24,6 +24,11 @@ import static org.hamcrest.Matchers.*;
 @QuarkusTest
 @TestProfile(ProductsResourceTestProfile.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+/**
+ * This class tests the ProductResource in Isolation.  All downstream actions are mocked.
+ * 
+ * @see com.redhat.demos.quarkusretailstore.products.MockProductsService
+ */
 public class ProductsResourceTest {
 
     @Inject
@@ -39,16 +44,14 @@ public class ProductsResourceTest {
                 .when().get("/products")
                 .then()
                 .statusCode(200)
-                .body("$", hasSize(1));
+                .body("$", hasSize(3));
     }
 
     @Order(1)
     @Test
     public void testAddingAProduct() {
 
-        ProductMasterJson productMasterJson = new ProductMasterJson(
-            UUID.randomUUID().toString(),
-            "A test product");
+        ProductMasterJson productMasterJson = new ProductMasterJson("A test product");
 
         with()
                 .body(JsonUtil.toJson(productMasterJson))

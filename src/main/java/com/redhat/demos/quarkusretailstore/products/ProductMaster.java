@@ -5,7 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity  @NamedQuery(name = "ProductMaster.findBySkuId", query = "from ProductMaster where skuId = ?1")
+@Entity @NamedQuery(name = "ProductMaster.findBySkuId", query = "from ProductMaster where skuId = ?1")
 public class ProductMaster extends PanacheEntity {
 
     @Column(unique = true) @GeneratedValue(strategy = GenerationType.IDENTITY)

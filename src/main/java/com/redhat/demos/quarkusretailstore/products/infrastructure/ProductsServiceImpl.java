@@ -4,6 +4,8 @@ import com.redhat.demos.quarkusretailstore.invoicing.api.ProductMasterDTO;
 import com.redhat.demos.quarkusretailstore.products.NoSuchProductException;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import com.redhat.demos.quarkusretailstore.products.ProductMasterRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,6 +17,8 @@ import java.util.UUID;
 
 @ApplicationScoped
 public class ProductsServiceImpl implements ProductsService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductsServiceImpl.class);
 
     @Inject
     ProductMasterRepository productMasterRepository;
@@ -32,8 +36,12 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override @Transactional
     public ProductMasterDTO addProduct(ProductMasterDTO productMasterDTO) {
-        productMasterRepository.persist(new ProductMaster(productMasterDTO.getSkuId(), productMasterDTO.getDescription()));
-        return productMasterDTO;
+
+        LOGGER.debug("adding: {}", productMasterDTO);
+        ProductMaster productMaster = new ProductMaster(UUID.randomUUID().toString(), productMasterDTO.getDescription());
+        productMasterRepository.persist(productMaster);
+        LOGGER.debug("added: {}", productMaster);
+        return new ProductMasterDTO(productMaster.getSkuId(), productMasterDTO.getDescription());
     }
 
 /*
