@@ -1,4 +1,4 @@
-package com.redhat.demos.quarkusretailstore.inventory;
+package com.redhat.demos.quarkusretailstore.ui.infrastructure;
 
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
@@ -38,7 +38,6 @@ public class InventoryResource {
 
         LOGGER.debug("creating inventory from: {}", inventoryJson);
 
-
         InventoryDTO inventoryDTO = new InventoryDTO(
                 inventoryJson.productMaster,
                 inventoryJson.unitCost,
@@ -51,14 +50,27 @@ public class InventoryResource {
                 inventoryJson.minimumQuantity,
                 inventoryJson.maximumQuantity
         );
+
         InventoryDTO result = inventoryService.addInventory(inventoryDTO);
-        return Response.status(Response.Status.CREATED).entity(result).build();
+
+        return Response.status(Response.Status.CREATED).entity(new InventoryJson(
+                inventoryDTO.getProductMaster(),
+                inventoryDTO.getUnitCost(),
+                inventoryDTO.getMaxRetailPrice(),
+                inventoryDTO.getOrderQuantity(),
+                inventoryDTO.getInStockQuantity(),
+                inventoryDTO.getBackOrderQuantity(),
+                inventoryDTO.getLastStockDate(),
+                inventoryDTO.getLastSaleDate(),
+                inventoryDTO.getMinimumQuantity(),
+                inventoryDTO.getMaximumQuantity())).build();
     }
 
     @PUT
     public Response updateInventory(final InventoryJson inventoryJson) {
 
         LOGGER.debug("updating inventory from: {}", inventoryJson);
+
         try {
             InventoryDTO inventoryDTO = new InventoryDTO(
                     inventoryJson.productMaster,
@@ -72,10 +84,23 @@ public class InventoryResource {
                     inventoryJson.minimumQuantity,
                     inventoryJson.maximumQuantity
             );
+
             InventoryDTO result = inventoryService.updateInventory(inventoryDTO);
-            return Response.status(Response.Status.OK).entity(result).build();
+
+            return Response.status(Response.Status.OK).entity(new InventoryJson(
+                    inventoryDTO.getProductMaster(),
+                    inventoryDTO.getUnitCost(),
+                    inventoryDTO.getMaxRetailPrice(),
+                    inventoryDTO.getOrderQuantity(),
+                    inventoryDTO.getInStockQuantity(),
+                    inventoryDTO.getBackOrderQuantity(),
+                    inventoryDTO.getLastStockDate(),
+                    inventoryDTO.getLastSaleDate(),
+                    inventoryDTO.getMinimumQuantity(),
+                    inventoryDTO.getMaximumQuantity())).build();
+
         } catch (NoSuchInventoryRecordException e) {
-            return Response.status(Response.Status.EXPECTATION_FAILED).entity(e.getMessage()).build();
+            return Response.status(Response.Status.OK).entity(null).build();
         }
     }
 }
