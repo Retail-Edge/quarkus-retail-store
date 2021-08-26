@@ -87,8 +87,8 @@ public class InventoryServiceTest {
         ProductMaster prod = productMasterRepository.find("description", "A Product").firstResult();
         InventoryDTO inventoryDTO = new InventoryDTO(
                 prod,
-                BigDecimal.valueOf(19.99),
-                BigDecimal.valueOf(24.99),
+                19.99,
+                24.99,
                 1,
                 8,
                 0,
@@ -113,8 +113,8 @@ public class InventoryServiceTest {
 
         InventoryDTO inventoryDTO = new InventoryDTO(
                 productMaster,
-                BigDecimal.valueOf(19.99),
-                BigDecimal.valueOf(24.99),
+                19.99,
+                24.99,
                 1,
                 8,
                 0,
@@ -128,8 +128,8 @@ public class InventoryServiceTest {
         LOGGER.debug("inventory: {}", inventory);
         assertEquals(productMaster.getSkuId(), inventory.getProductMaster().getSkuId());
         assertNotNull(inventory);
-        assertEquals(BigDecimal.valueOf(19.99), inventory.getUnitCost());
-        assertEquals(BigDecimal.valueOf(24.99), inventory.getMaxRetailPrice());
+        assertEquals(19.99, inventory.getUnitCost());
+        assertEquals(24.99, inventory.getMaxRetailPrice());
         assertEquals(1, inventory.getOrderQuantity());
         assertEquals(8, inventory.getInStockQuantity());
         assertEquals(0, inventory.getBackOrderQuantity());

@@ -13,9 +13,9 @@ public class InventoryJson {
 
     public final ProductMaster productMaster;
 
-    public final BigDecimal unitCost;
+    public final Double unitCost;
 
-    public final BigDecimal maxRetailPrice;
+    public final Double maxRetailPrice;
 
     public final int orderQuantity;
 
@@ -31,7 +31,7 @@ public class InventoryJson {
 
     public final int maximumQuantity;
 
-    public InventoryJson(ProductMaster productMaster, BigDecimal unitCost, BigDecimal maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
+    public InventoryJson(ProductMaster productMaster, Double unitCost, Double maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
         this.productMaster = productMaster;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
@@ -45,7 +45,7 @@ public class InventoryJson {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public InventoryJson(@JsonProperty("productMaster") ProductMaster productMaster, @JsonProperty("unitCost") BigDecimal unitCost, @JsonProperty("maxRetailPrice") BigDecimal maxRetailPrice, @JsonProperty("orderQuantity") int orderQuantity, @JsonProperty("inStockQuantity") int inStockQuantity, @JsonProperty("backOrderQuantity") int backOrderQuantity, @JsonProperty("lastStockDate") Date lastStockDate, @JsonProperty("lastSaleDate") Date lastSaleDate, @JsonProperty("minimumQuantity") int minimumQuantity, @JsonProperty("maximumQuantity") int maximumQuantity) {
+    public InventoryJson(@JsonProperty("productMaster") ProductMaster productMaster, @JsonProperty("unitCost") Double unitCost, @JsonProperty("maxRetailPrice") Double maxRetailPrice, @JsonProperty("orderQuantity") int orderQuantity, @JsonProperty("inStockQuantity") int inStockQuantity, @JsonProperty("backOrderQuantity") int backOrderQuantity, @JsonProperty("lastStockDate") Date lastStockDate, @JsonProperty("lastSaleDate") Date lastSaleDate, @JsonProperty("minimumQuantity") int minimumQuantity, @JsonProperty("maximumQuantity") int maximumQuantity) {
         this.productMaster = productMaster;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
@@ -116,11 +116,11 @@ public class InventoryJson {
         return productMaster;
     }
 
-    public BigDecimal getUnitCost() {
+    public Double getUnitCost() {
         return unitCost;
     }
 
-    public BigDecimal getMaxRetailPrice() {
+    public Double getMaxRetailPrice() {
         return maxRetailPrice;
     }
 

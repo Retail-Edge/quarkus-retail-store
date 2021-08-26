@@ -9,9 +9,9 @@ public class InventoryDTO {
 
     final ProductMaster productMaster;
 
-    final BigDecimal unitCost;
+    final Double unitCost;
 
-    final BigDecimal maxRetailPrice;
+    final Double maxRetailPrice;
 
     final int orderQuantity;
 
@@ -27,7 +27,7 @@ public class InventoryDTO {
 
     final int maximumQuantity;
 
-    public InventoryDTO(ProductMaster productMaster, BigDecimal unitCost, BigDecimal maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
+    public InventoryDTO(ProductMaster productMaster, Double unitCost, Double maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
         this.productMaster = productMaster;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
@@ -98,11 +98,11 @@ public class InventoryDTO {
         return productMaster;
     }
 
-    public BigDecimal getUnitCost() {
+    public Double getUnitCost() {
         return unitCost;
     }
 
-    public BigDecimal getMaxRetailPrice() {
+    public Double getMaxRetailPrice() {
         return maxRetailPrice;
     }
 
