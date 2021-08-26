@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +32,11 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     public ProductMaster getProductBySkuId(String skuId) throws NoSuchProductException {
-        return productMasterRepository.find("skuId", skuId).singleResult();
+        try {
+            return productMasterRepository.find("skuId", skuId).singleResult();
+        } catch (NoResultException e) {
+            throw new NoSuchProductException(skuId);
+        }
     }
 
     @Override @Transactional

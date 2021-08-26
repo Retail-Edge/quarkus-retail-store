@@ -1,9 +1,9 @@
-package com.redhat.demos.quarkusretailstore.products.infrastructure;
+package com.redhat.demos.quarkusretailstore.ui.infrastructure;
 
 import com.redhat.demos.quarkusretailstore.invoicing.api.ProductMasterDTO;
 import com.redhat.demos.quarkusretailstore.products.NoSuchProductException;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
-import com.redhat.demos.quarkusretailstore.products.ProductMasterRepository;
+import com.redhat.demos.quarkusretailstore.products.infrastructure.ProductsService;
 import com.redhat.demos.quarkusretailstore.ui.api.ProductMasterJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.Collection;
 
 @Path("/products")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -21,9 +21,6 @@ import java.util.*;
 public class ProductsResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductsResource.class);
-
-    @Inject
-    ProductMasterRepository productMasterRepository;
 
     @Inject
     ProductsService productsService;
@@ -40,9 +37,16 @@ public class ProductsResource {
     @Path("/{id}")
     public Response getProduct(@PathParam("id") String skuId) {
 
-        ProductMaster productMaster = productMasterRepository.find("skuId", skuId).singleResult();
-        LOGGER.debug("Returning {}", productMaster);
-        return Response.status(200).entity(productMaster).build();
+        ProductMaster productMaster = null;
+        try {
+            productMaster = productsService.getProductBySkuId(skuId);
+            LOGGER.debug("Returning {}", productMaster);
+            return Response.status(Response.Status.OK).entity(new ProductMasterJson(productMaster.getSkuId(), productMaster.getDescription())).build();
+        } catch (NoSuchProductException e) {
+            LOGGER.debug("No ProductMaster found for: {}", skuId);
+            LOGGER.debug(e.getMessage());
+            return Response.status(Response.Status.OK).entity(null).build();
+        }
     }
 
     @POST@Transactional
