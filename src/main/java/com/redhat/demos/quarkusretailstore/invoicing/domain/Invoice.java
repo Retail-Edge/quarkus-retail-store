@@ -1,23 +1,16 @@
 package com.redhat.demos.quarkusretailstore.invoicing.domain;
 
-import com.redhat.demos.quarkusretailstore.invoicing.CreateInvoiceCommand;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
-import io.smallrye.config.ConfigMapping;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.UUID;
 
 /**
  * Domain object representing Invoices
  */
 public class Invoice {
 
-    @ConfigProperty(name = "storeId", defaultValue = "TEST")
     String storeId;
 
     InvoiceRecord invoiceRecord;
