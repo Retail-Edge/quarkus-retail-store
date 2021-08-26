@@ -1,0 +1,14 @@
+{
+  "name": "inventory-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.hostname": "retail-db",
+    "database.port": "5432",
+    "database.user": "retailuser",
+    "database.password": "redhat-21",
+    "database.dbname": "retaildb",
+    "database.server.name": "retaildb1",
+    "schema.include.list": "retail"
+  }
+}
