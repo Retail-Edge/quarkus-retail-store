@@ -7,7 +7,6 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
