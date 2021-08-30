@@ -1,5 +1,6 @@
 package com.redhat.demos.quarkusretailstore.products.infrastructure;
 
+import com.redhat.demos.quarkusretailstore.products.api.ProductsService;
 import com.redhat.demos.quarkusretailstore.ui.api.ProductMasterJson;
 import com.redhat.demos.quarkusretailstore.utils.JsonUtil;
 import io.quarkus.test.junit.QuarkusTest;
@@ -7,7 +8,6 @@ import io.quarkus.test.junit.TestProfile;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
-import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.with;

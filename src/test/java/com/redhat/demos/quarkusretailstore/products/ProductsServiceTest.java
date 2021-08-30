@@ -1,6 +1,7 @@
 package com.redhat.demos.quarkusretailstore.products;
 
-import com.redhat.demos.quarkusretailstore.products.infrastructure.ProductsService;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
+import com.redhat.demos.quarkusretailstore.products.api.ProductsService;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ public class ProductsServiceTest {
     @Test
     public void testAllProducts() {
 
-        Collection<ProductMaster> results = productsService.getAllProducts();
+        Collection<ProductMasterDTO> results = productsService.getAllProducts();
         assertNotNull(results);
         assertEquals(4, results.size());
 

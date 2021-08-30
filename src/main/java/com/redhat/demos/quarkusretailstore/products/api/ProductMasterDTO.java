@@ -1,4 +1,4 @@
-package com.redhat.demos.quarkusretailstore.invoicing.api;
+package com.redhat.demos.quarkusretailstore.products.api;
 
 public class ProductMasterDTO {
 

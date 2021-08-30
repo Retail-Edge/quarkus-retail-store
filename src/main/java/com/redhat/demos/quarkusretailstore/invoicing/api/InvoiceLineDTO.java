@@ -2,6 +2,7 @@ package com.redhat.demos.quarkusretailstore.invoicing.api;
 
 import com.redhat.demos.quarkusretailstore.invoicing.UnitOfMeasure;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 
 import java.math.BigDecimal;
 

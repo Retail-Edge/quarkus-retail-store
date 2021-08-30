@@ -37,7 +37,8 @@ public class InventoryServiceImpl implements InventoryService {
     public InventoryDTO addInventory(final InventoryDTO inventoryDTO) {
 
         LOGGER.debug("adding: {}", inventoryDTO);
-        ProductMaster productMaster = ProductMaster.findBySkuId(inventoryDTO.getProductMaster().getSkuId());
+        ProductMaster productMaster = productMasterRepository.findBySkuId(inventoryDTO.getProductMaster().getSkuId());
+        LOGGER.debug("updating inventory for: {}", productMaster);
         Inventory inventory = new Inventory(
                 productMaster,
                 inventoryDTO.getUnitCost(),
@@ -51,16 +52,21 @@ public class InventoryServiceImpl implements InventoryService {
                 inventoryDTO.getMaximumQuantity()
         );
         inventoryRepository.persist(inventory);
-        return inventory.toInventoryDTO();
+        LOGGER.debug("saved inventory: {}", inventory);
+        return inventory. toInventoryDTO();
     }
 
     @Override @Transactional
     public InventoryDTO updateInventory(final InventoryDTO inventoryDTO) throws NoSuchInventoryRecordException {
+
         LOGGER.debug("updating: {}", inventoryDTO);
+
         Inventory inventory = inventoryRepository.findById(inventoryDTO.getProductMaster().getSkuId());
+
         if (inventory == null) {
             throw new NoSuchInventoryRecordException(inventoryDTO.getProductMaster().getSkuId());
         }
+
         inventory.setBackOrderQuantity(inventoryDTO.getBackOrderQuantity());
         inventory.setInStockQuantity(inventoryDTO.getInStockQuantity());
         inventory.setLastSaleDate(inventoryDTO.getLastSaleDate());

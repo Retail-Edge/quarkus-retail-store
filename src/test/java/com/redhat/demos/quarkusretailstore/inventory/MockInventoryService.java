@@ -76,12 +76,13 @@ public class MockInventoryService implements InventoryService {
     }
 
     @Override
-    public InventoryDTO addInventory(InventoryDTO inventoryJson) {
-        return null;
+    public InventoryDTO addInventory(InventoryDTO inventoryDTO) {
+
+        return inventoryDTO;
     }
 
     @Override
-    public InventoryDTO updateInventory(InventoryDTO inventoryJson) {
-        return null;
+    public InventoryDTO updateInventory(InventoryDTO inventoryDTO) {
+        return inventoryDTO;
     }
 }

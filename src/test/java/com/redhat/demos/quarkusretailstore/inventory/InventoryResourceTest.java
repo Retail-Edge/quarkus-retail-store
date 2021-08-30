@@ -1,6 +1,7 @@
 package com.redhat.demos.quarkusretailstore.inventory;
 
-import com.redhat.demos.quarkusretailstore.ui.InventoryJson;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
+import com.redhat.demos.quarkusretailstore.ui.api.InventoryJson;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import com.redhat.demos.quarkusretailstore.utils.JsonUtil;
 import io.quarkus.test.junit.QuarkusTest;
@@ -43,7 +44,7 @@ public class InventoryResourceTest {
     public void testUpdatingInventory() {
 
         with().body(JsonUtil.toJson(new InventoryJson(
-                        new ProductMaster(skuId, "A new product description"),
+                        new ProductMasterDTO(skuId, "A new product description"),
                         BigDecimal.valueOf(19.99),
                         BigDecimal.valueOf(24.99),
                         1,
@@ -66,7 +67,7 @@ public class InventoryResourceTest {
     public void testAddingInventory() {
 
         System.out.println(JsonUtil.toJson(new InventoryJson(
-                new ProductMaster(skuId, "A product description"),
+                new ProductMasterDTO(skuId, "A product description"),
                 BigDecimal.valueOf(19.99),
                 BigDecimal.valueOf(24.99),
                 1,
@@ -79,7 +80,7 @@ public class InventoryResourceTest {
         )));
 
         with().body(JsonUtil.toJson(new InventoryJson(
-                        new ProductMaster(skuId, "A product description"),
+                        new ProductMasterDTO(skuId, "A product description"),
                         BigDecimal.valueOf(19.99),
                         BigDecimal.valueOf(24.99),
                         1,

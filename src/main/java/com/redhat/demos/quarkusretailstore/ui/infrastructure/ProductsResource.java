@@ -1,9 +1,8 @@
 package com.redhat.demos.quarkusretailstore.ui.infrastructure;
 
-import com.redhat.demos.quarkusretailstore.invoicing.api.ProductMasterDTO;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 import com.redhat.demos.quarkusretailstore.products.NoSuchProductException;
-import com.redhat.demos.quarkusretailstore.products.ProductMaster;
-import com.redhat.demos.quarkusretailstore.products.infrastructure.ProductsService;
+import com.redhat.demos.quarkusretailstore.products.api.ProductsService;
 import com.redhat.demos.quarkusretailstore.ui.api.ProductMasterJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,7 @@ public class ProductsResource {
     @GET
     public Response getProducts() {
 
-        Collection<ProductMaster> allProducts = productsService.getAllProducts();
+        Collection<ProductMasterDTO> allProducts = productsService.getAllProducts();
         LOGGER.debug("Returning {} products", allProducts.size());
         return Response.status(200).entity(allProducts).build();
     }
@@ -37,7 +36,7 @@ public class ProductsResource {
     @Path("/{id}")
     public Response getProduct(@PathParam("id") String skuId) {
 
-        ProductMaster productMaster = null;
+        ProductMasterDTO productMaster = null;
         try {
             productMaster = productsService.getProductBySkuId(skuId);
             LOGGER.debug("Returning {}", productMaster);

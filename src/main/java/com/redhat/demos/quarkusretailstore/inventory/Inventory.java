@@ -2,13 +2,13 @@ package com.redhat.demos.quarkusretailstore.inventory;
 
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import org.hibernate.annotations.Cascade;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 class Inventory extends PanacheEntity {
@@ -53,7 +53,7 @@ class Inventory extends PanacheEntity {
     public static Inventory from(final InventoryDTO inventoryDTO) {
 
         return new Inventory(
-                inventoryDTO.getProductMaster(),
+                new ProductMaster(inventoryDTO.getProductMaster().getSkuId(), inventoryDTO.getProductMaster().getDescription()),
                 inventoryDTO.getUnitCost(),
                 inventoryDTO.getMaxRetailPrice(),
                 inventoryDTO.getOrderQuantity(),
@@ -68,7 +68,8 @@ class Inventory extends PanacheEntity {
 
     public InventoryDTO toInventoryDTO() {
 
-        return new InventoryDTO(this.productMaster,
+        return new InventoryDTO(
+                new ProductMasterDTO(this.productMaster.getSkuId(), this.productMaster.getDescription()),
                 this.unitCost,
                 this.maxRetailPrice,
                 this.orderQuantity,

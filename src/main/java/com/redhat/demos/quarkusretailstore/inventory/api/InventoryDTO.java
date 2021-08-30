@@ -1,13 +1,14 @@
 package com.redhat.demos.quarkusretailstore.inventory.api;
 
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class InventoryDTO {
 
-    final ProductMaster productMaster;
+    final ProductMasterDTO productMaster;
 
     final BigDecimal unitCost;
 
@@ -27,7 +28,7 @@ public class InventoryDTO {
 
     final int maximumQuantity;
 
-    public InventoryDTO(ProductMaster productMaster, BigDecimal unitCost, BigDecimal maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
+    public InventoryDTO(ProductMasterDTO productMaster, BigDecimal unitCost, BigDecimal maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
         this.productMaster = productMaster;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
@@ -94,7 +95,7 @@ public class InventoryDTO {
         return result;
     }
 
-    public ProductMaster getProductMaster() {
+    public ProductMasterDTO getProductMaster() {
         return productMaster;
     }
 

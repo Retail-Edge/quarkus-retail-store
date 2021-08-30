@@ -1,7 +1,5 @@
 package com.redhat.demos.quarkusretailstore.invoicing;
 
-import com.redhat.demos.quarkusretailstore.products.ProductMaster;
-import com.redhat.demos.quarkusretailstore.ui.InventoryJson;
 import com.redhat.demos.quarkusretailstore.ui.api.InvoiceHeaderJson;
 import com.redhat.demos.quarkusretailstore.ui.api.InvoiceJson;
 import com.redhat.demos.quarkusretailstore.ui.api.InvoiceLineJson;
@@ -14,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

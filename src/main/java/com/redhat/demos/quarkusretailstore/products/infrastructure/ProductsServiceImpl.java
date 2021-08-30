@@ -1,9 +1,10 @@
 package com.redhat.demos.quarkusretailstore.products.infrastructure;
 
-import com.redhat.demos.quarkusretailstore.invoicing.api.ProductMasterDTO;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 import com.redhat.demos.quarkusretailstore.products.NoSuchProductException;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import com.redhat.demos.quarkusretailstore.products.ProductMasterRepository;
+import com.redhat.demos.quarkusretailstore.products.api.ProductsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,10 +12,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ProductsServiceImpl implements ProductsService {
@@ -25,15 +25,18 @@ public class ProductsServiceImpl implements ProductsService {
     ProductMasterRepository productMasterRepository;
 
     @Override
-    public Collection<ProductMaster> getAllProducts() {
+    public Collection<ProductMasterDTO> getAllProducts() {
 
-        return productMasterRepository.listAll();
+        return productMasterRepository.streamAll().map(productMaster -> {
+            return new ProductMasterDTO(productMaster.getSkuId(), productMaster.getDescription());
+        }).collect(Collectors.toList());
     }
 
     @Override
-    public ProductMaster getProductBySkuId(String skuId) throws NoSuchProductException {
+    public ProductMasterDTO getProductBySkuId(String skuId) throws NoSuchProductException {
         try {
-            return productMasterRepository.find("skuId", skuId).singleResult();
+            ProductMaster productMaster = productMasterRepository.find("skuId", skuId).singleResult();
+            return new ProductMasterDTO(productMaster.getSkuId(), productMaster.getDescription());
         } catch (NoResultException e) {
             throw new NoSuchProductException(skuId);
         }

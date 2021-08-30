@@ -3,7 +3,8 @@ package com.redhat.demos.quarkusretailstore.ui.infrastructure;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
 import com.redhat.demos.quarkusretailstore.inventory.api.NoSuchInventoryRecordException;
-import com.redhat.demos.quarkusretailstore.ui.InventoryJson;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
+import com.redhat.demos.quarkusretailstore.ui.api.InventoryJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,7 @@ public class InventoryResource {
         LOGGER.debug("creating inventory from: {}", inventoryJson);
 
         InventoryDTO inventoryDTO = new InventoryDTO(
-                inventoryJson.productMaster,
+                new ProductMasterDTO(inventoryJson.productMaster.getSkuId(), inventoryJson.productMaster.getDescription()),
                 inventoryJson.unitCost,
                 inventoryJson.maxRetailPrice,
                 inventoryJson.orderQuantity,
@@ -54,16 +55,16 @@ public class InventoryResource {
         InventoryDTO result = inventoryService.addInventory(inventoryDTO);
 
         return Response.status(Response.Status.CREATED).entity(new InventoryJson(
-                inventoryDTO.getProductMaster(),
-                inventoryDTO.getUnitCost(),
-                inventoryDTO.getMaxRetailPrice(),
-                inventoryDTO.getOrderQuantity(),
-                inventoryDTO.getInStockQuantity(),
-                inventoryDTO.getBackOrderQuantity(),
-                inventoryDTO.getLastStockDate(),
-                inventoryDTO.getLastSaleDate(),
-                inventoryDTO.getMinimumQuantity(),
-                inventoryDTO.getMaximumQuantity())).build();
+                result.getProductMaster(),
+                result.getUnitCost(),
+                result.getMaxRetailPrice(),
+                result.getOrderQuantity(),
+                result.getInStockQuantity(),
+                result.getBackOrderQuantity(),
+                result.getLastStockDate(),
+                result.getLastSaleDate(),
+                result.getMinimumQuantity(),
+                result.getMaximumQuantity())).build();
     }
 
     @PUT

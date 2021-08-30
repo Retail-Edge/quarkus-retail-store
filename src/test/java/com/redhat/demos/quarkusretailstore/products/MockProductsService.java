@@ -1,8 +1,7 @@
 package com.redhat.demos.quarkusretailstore.products;
 
-import com.redhat.demos.quarkusretailstore.invoicing.api.ProductMasterDTO;
-import com.redhat.demos.quarkusretailstore.products.infrastructure.ProductsService;
-import io.quarkus.test.Mock;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
+import com.redhat.demos.quarkusretailstore.products.api.ProductsService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
@@ -15,7 +14,7 @@ import java.util.UUID;
 @ApplicationScoped
 public class MockProductsService implements ProductsService {
 
-    public Collection<ProductMaster> getAllProducts() {
+    public Collection<ProductMasterDTO> getAllProducts() {
         return new ArrayList(
             Arrays.asList(new ProductMaster(UUID.randomUUID().toString(), "A product"),
             new ProductMaster(UUID.randomUUID().toString(), "Another product"),
@@ -24,8 +23,8 @@ public class MockProductsService implements ProductsService {
     }
 
     @Override
-    public ProductMaster getProductBySkuId(String skuId) throws NoSuchProductException {
-        return new ProductMaster(skuId, "A mocked product");
+    public ProductMasterDTO getProductBySkuId(String skuId) throws NoSuchProductException {
+        return new ProductMasterDTO(skuId, "A mocked product");
     }
 
     @Override

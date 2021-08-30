@@ -1,8 +1,9 @@
-package com.redhat.demos.quarkusretailstore.ui;
+package com.redhat.demos.quarkusretailstore.ui.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 public class InventoryJson {
 
-    public final ProductMaster productMaster;
+    public final ProductMasterDTO productMaster;
 
     public final BigDecimal unitCost;
 
@@ -31,7 +32,7 @@ public class InventoryJson {
 
     public final int maximumQuantity;
 
-    public InventoryJson(ProductMaster productMaster, BigDecimal unitCost, BigDecimal maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
+    public InventoryJson(ProductMasterDTO productMaster, BigDecimal unitCost, BigDecimal maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
         this.productMaster = productMaster;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
@@ -45,7 +46,7 @@ public class InventoryJson {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public InventoryJson(@JsonProperty("productMaster") ProductMaster productMaster, @JsonProperty("unitCost") BigDecimal unitCost, @JsonProperty("maxRetailPrice") BigDecimal maxRetailPrice, @JsonProperty("orderQuantity") int orderQuantity, @JsonProperty("inStockQuantity") int inStockQuantity, @JsonProperty("backOrderQuantity") int backOrderQuantity, @JsonProperty("lastStockDate") Date lastStockDate, @JsonProperty("lastSaleDate") Date lastSaleDate, @JsonProperty("minimumQuantity") int minimumQuantity, @JsonProperty("maximumQuantity") int maximumQuantity) {
+    public InventoryJson(@JsonProperty("productMaster") ProductMasterDTO productMaster, @JsonProperty("unitCost") BigDecimal unitCost, @JsonProperty("maxRetailPrice") BigDecimal maxRetailPrice, @JsonProperty("orderQuantity") int orderQuantity, @JsonProperty("inStockQuantity") int inStockQuantity, @JsonProperty("backOrderQuantity") int backOrderQuantity, @JsonProperty("lastStockDate") Date lastStockDate, @JsonProperty("lastSaleDate") Date lastSaleDate, @JsonProperty("minimumQuantity") int minimumQuantity, @JsonProperty("maximumQuantity") int maximumQuantity) {
         this.productMaster = productMaster;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
@@ -112,7 +113,7 @@ public class InventoryJson {
         return result;
     }
 
-    public ProductMaster getProductMaster() {
+    public ProductMasterDTO getProductMaster() {
         return productMaster;
     }
 
