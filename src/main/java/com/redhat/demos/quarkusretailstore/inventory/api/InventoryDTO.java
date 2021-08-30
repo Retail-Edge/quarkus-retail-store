@@ -1,6 +1,6 @@
 package com.redhat.demos.quarkusretailstore.inventory.api;
 
-import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
+import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

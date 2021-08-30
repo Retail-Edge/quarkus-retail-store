@@ -1,9 +1,8 @@
-package com.redhat.demos.quarkusretailstore.ui.api;
+package com.redhat.demos.quarkusretailstore.ui;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
-import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

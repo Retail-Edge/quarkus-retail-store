@@ -1,7 +1,6 @@
 package com.redhat.demos.quarkusretailstore.inventory;
 
-import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
-import com.redhat.demos.quarkusretailstore.ui.api.InventoryJson;
+import com.redhat.demos.quarkusretailstore.ui.InventoryJson;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import com.redhat.demos.quarkusretailstore.utils.JsonUtil;
 import io.quarkus.test.junit.QuarkusTest;

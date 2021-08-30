@@ -1,28 +1,24 @@
 package com.redhat.demos.quarkusretailstore.inventory;
 
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
+import com.redhat.demos.quarkusretailstore.inventory.api.NoSuchInventoryRecordException;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
+import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import com.redhat.demos.quarkusretailstore.products.ProductMasterRepository;
-import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.InjectMock;
-import io.quarkus.test.junit.mockito.InjectSpy;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.UUID;
+import java.util.Iterator;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class InventoryServiceTest {
@@ -32,22 +28,31 @@ public class InventoryServiceTest {
     @Inject
     InventoryService inventoryService;
 
-    @InjectSpy
+    @Inject
     InventoryRepository inventoryRepository;
 
-    @InjectMock
+    @Inject
     ProductMasterRepository productMasterRepository;
 
-    @Test
+    @Test @Order(4)
     public void testInventory() {
 
         Collection<InventoryDTO> completeInventory = inventoryService.getCompeleteInventory();
-        Mockito.verify(inventoryRepository, Mockito.times(1)).streamAll();
+        assertNotNull(completeInventory);
+        assertEquals(1, completeInventory.size());
     }
 
 /*
     @Test @Order(3)
     public void testUpdatingInventory(){
+
+        List<Inventory> completeInventory = inventoryRepository.listAll();
+        List<ProductMaster> completeProducts = productMasterRepository.listAll();
+        assertNotNull(completeInventory);
+        assertTrue(completeInventory.size() >= 1);
+        Inventory inventory = completeInventory.get(0);
+        LOGGER.debug("inventory: {}", inventory);
+        int expectedValue = inventory.getOrderQuantity() + 1;
 
         InventoryDTO inventoryDTO = new InventoryDTO(
                 inventory.getProductMaster(),
@@ -61,8 +66,6 @@ public class InventoryServiceTest {
                 inventory.getMinimumQuantity(),
                 inventory.getMaximumQuantity()
         );
-
-        inventoryService.
 
         try {
             inventoryService.updateInventory(inventoryDTO);
@@ -105,7 +108,10 @@ public class InventoryServiceTest {
     @Test @Order(1) @Transactional
     public void testMarshallingInventoryFromJson() {
 
-        ProductMasterDTO productMasterDTO = new ProductMasterDTO(UUID.randomUUID().toString(), "Test Product");
+        // add a product into the db
+        ProductMaster productMaster = new ProductMaster( "A Product");
+        productMasterRepository.persist(productMaster);
+
         InventoryDTO inventoryDTO = new InventoryDTO(
                 productMasterDTO,
                 Double.valueOf(19.99),
