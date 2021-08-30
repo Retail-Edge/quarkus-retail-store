@@ -113,8 +113,8 @@ public class InventoryServiceTest {
         ProductMasterDTO productMasterDTO = new ProductMasterDTO(UUID.randomUUID().toString(), "Test Product");
         InventoryDTO inventoryDTO = new InventoryDTO(
                 productMasterDTO,
-                BigDecimal.valueOf(19.99),
-                BigDecimal.valueOf(24.99),
+                Double.valueOf(19.99),
+                Double.valueOf(24.99),
                 1,
                 8,
                 0,
@@ -128,8 +128,8 @@ public class InventoryServiceTest {
         LOGGER.debug("inventory: {}", inventory);
         assertEquals(productMasterDTO.getSkuId(), inventory.getProductMaster().getSkuId());
         assertNotNull(inventory);
-        assertEquals(BigDecimal.valueOf(19.99), inventory.getUnitCost());
-        assertEquals(BigDecimal.valueOf(24.99), inventory.getMaxRetailPrice());
+        assertEquals(Double.valueOf(19.99), inventory.getUnitCost());
+        assertEquals(Double.valueOf(24.99), inventory.getMaxRetailPrice());
         assertEquals(1, inventory.getOrderQuantity());
         assertEquals(8, inventory.getInStockQuantity());
         assertEquals(0, inventory.getBackOrderQuantity());

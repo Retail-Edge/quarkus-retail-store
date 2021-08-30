@@ -16,9 +16,9 @@ class Inventory extends PanacheEntity {
     @OneToOne
     ProductMaster productMaster;
 
-    BigDecimal unitCost;
+    Double unitCost;
 
-    BigDecimal maxRetailPrice;
+    Double maxRetailPrice;
 
     int orderQuantity;
 
@@ -37,7 +37,7 @@ class Inventory extends PanacheEntity {
     public Inventory() {
     }
 
-    public Inventory(ProductMaster productMaster, BigDecimal unitCost, BigDecimal maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
+    public Inventory(ProductMaster productMaster, Double unitCost, Double maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
         this.productMaster = productMaster;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
@@ -143,19 +143,19 @@ class Inventory extends PanacheEntity {
         this.productMaster = productMaster;
     }
 
-    public BigDecimal getUnitCost() {
+    public Double getUnitCost() {
         return unitCost;
     }
 
-    public void setUnitCost(BigDecimal unitCost) {
+    public void setUnitCost(Double unitCost) {
         this.unitCost = unitCost;
     }
 
-    public BigDecimal getMaxRetailPrice() {
+    public Double getMaxRetailPrice() {
         return maxRetailPrice;
     }
 
-    public void setMaxRetailPrice(BigDecimal maxRetailPrice) {
+    public void setMaxRetailPrice(Double maxRetailPrice) {
         this.maxRetailPrice = maxRetailPrice;
     }
 

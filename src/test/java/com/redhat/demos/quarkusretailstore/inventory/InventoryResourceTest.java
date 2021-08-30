@@ -45,8 +45,8 @@ public class InventoryResourceTest {
 
         with().body(JsonUtil.toJson(new InventoryJson(
                         new ProductMasterDTO(skuId, "A new product description"),
-                        BigDecimal.valueOf(19.99),
-                        BigDecimal.valueOf(24.99),
+                        Double.valueOf(19.99),
+                        Double.valueOf(24.99),
                         1,
                         9,
                         0,
@@ -68,8 +68,8 @@ public class InventoryResourceTest {
 
         System.out.println(JsonUtil.toJson(new InventoryJson(
                 new ProductMasterDTO(skuId, "A product description"),
-                BigDecimal.valueOf(19.99),
-                BigDecimal.valueOf(24.99),
+                Double.valueOf(19.99),
+                Double.valueOf(24.99),
                 1,
                 9,
                 0,
@@ -81,8 +81,8 @@ public class InventoryResourceTest {
 
         with().body(JsonUtil.toJson(new InventoryJson(
                         new ProductMasterDTO(skuId, "A product description"),
-                        BigDecimal.valueOf(19.99),
-                        BigDecimal.valueOf(24.99),
+                        Double.valueOf(19.99),
+                        Double.valueOf(24.99),
                         1,
                         9,
                         0,
