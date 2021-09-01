@@ -40,8 +40,8 @@ public class InventoryResource {
         LOGGER.debug("creating inventory from: {}", inventoryJson);
 
         InventoryDTO inventoryDTO = new InventoryDTO(
-                new ProductMasterDTO(inventoryJson.productMaster.getSkuId(), inventoryJson.productMaster.getDescription()),
-                inventoryJson.unitCost,
+                new ProductMasterDTO(inventoryJson.getProductMaster().getSkuId(), inventoryJson.getProductMaster().getDescription()),
+                inventoryJson.getUnitCost(),
                 inventoryJson.maxRetailPrice,
                 inventoryJson.orderQuantity,
                 inventoryJson.inStockQuantity,
@@ -74,7 +74,7 @@ public class InventoryResource {
 
         try {
             InventoryDTO inventoryDTO = new InventoryDTO(
-                    inventoryJson.productMaster,
+                    inventoryJson.getProductMaster(),
                     inventoryJson.unitCost,
                     inventoryJson.maxRetailPrice,
                     inventoryJson.orderQuantity,

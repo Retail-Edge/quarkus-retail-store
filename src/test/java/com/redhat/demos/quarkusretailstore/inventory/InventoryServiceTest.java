@@ -1,24 +1,25 @@
 package com.redhat.demos.quarkusretailstore.inventory;
 
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
-import com.redhat.demos.quarkusretailstore.inventory.api.NoSuchInventoryRecordException;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import com.redhat.demos.quarkusretailstore.products.ProductMasterRepository;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @QuarkusTest @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class InventoryServiceTest {
@@ -34,6 +35,7 @@ public class InventoryServiceTest {
     @Inject
     ProductMasterRepository productMasterRepository;
 
+/*
     @Test @Order(4)
     public void testInventory() {
 
@@ -42,7 +44,6 @@ public class InventoryServiceTest {
         assertEquals(1, completeInventory.size());
     }
 
-/*
     @Test @Order(3)
     public void testUpdatingInventory(){
 
@@ -113,7 +114,7 @@ public class InventoryServiceTest {
         productMasterRepository.persist(productMaster);
 
         InventoryDTO inventoryDTO = new InventoryDTO(
-                productMasterDTO,
+                new ProductMasterDTO(productMaster.getSkuId(), productMaster.getDescription()),
                 Double.valueOf(19.99),
                 Double.valueOf(24.99),
                 1,
@@ -127,7 +128,7 @@ public class InventoryServiceTest {
 
         Inventory inventory = Inventory.from(inventoryDTO);
         LOGGER.debug("inventory: {}", inventory);
-        assertEquals(productMasterDTO.getSkuId(), inventory.getProductMaster().getSkuId());
+        assertEquals(productMaster.getSkuId(), inventory.getProductMaster().getSkuId());
         assertNotNull(inventory);
         assertEquals(Double.valueOf(19.99), inventory.getUnitCost());
         assertEquals(Double.valueOf(24.99), inventory.getMaxRetailPrice());
