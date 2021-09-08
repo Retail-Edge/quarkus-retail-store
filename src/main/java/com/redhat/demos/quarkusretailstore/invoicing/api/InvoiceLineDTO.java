@@ -18,8 +18,8 @@ public class InvoiceLineDTO {
 
     final UnitOfMeasure unitOfMeasure;
 
-    public InvoiceLineDTO(ProductMaster prductMaster, BigDecimal billQuantity, Double unitPrice, BigDecimal extendedPrice, UnitOfMeasure unitOfMeasure) {
-        this.productMaster = new ProductMasterDTO(prductMaster.getSkuId().toString(), prductMaster.getDescription());
+    public InvoiceLineDTO(ProductMaster productMaster, BigDecimal billQuantity, Double unitPrice, BigDecimal extendedPrice, UnitOfMeasure unitOfMeasure) {
+        this.productMaster = new ProductMasterDTO(productMaster.getSkuId().toString(), productMaster.getDescription());
         this.billQuantity = billQuantity;
         this.unitPrice = unitPrice;
         this.extendedPrice = extendedPrice;

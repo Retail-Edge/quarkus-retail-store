@@ -4,6 +4,7 @@ import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -17,6 +18,12 @@ public class Invoice {
 
     public static Invoice from(InvoiceRecord invoiceRecord) {
         return new Invoice(invoiceRecord);
+    }
+
+    public static InvoiceEventResult create(final InvoiceDTO invoiceDTO) {
+
+        Invoice invoice = new Invoice(invoiceDTO);
+        return new InvoiceEventResult(invoice, Arrays.asList(InvoiceEvent.from(invoice.invoiceRecord)));
     }
 
     public Invoice(InvoiceDTO invoiceDTO) {
@@ -45,7 +52,7 @@ public class Invoice {
         });
 
         // Create the InvoiceRecord
-        InvoiceRecord invoiceRecord = new InvoiceRecord(
+        invoiceRecord = new InvoiceRecord(
                 invoiceDTO.getInvoiceId(),
                 invoiceHeader,
                 invoiceLines,

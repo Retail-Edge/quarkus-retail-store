@@ -6,6 +6,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * Entity storing Invoice data
@@ -13,7 +14,7 @@ import java.util.Collection;
 @Entity
 class InvoiceRecord extends PanacheEntity {
 
-    @Column(name = "invoice_id", nullable = false, unique = true) @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "invoice_id", nullable = false, unique = true)
     String invoiceId;
 
     @OneToOne
@@ -25,7 +26,6 @@ class InvoiceRecord extends PanacheEntity {
     String customerName;
 
     public InvoiceRecord() {
-
     }
 
     public InvoiceRecord(String invoiceId, InvoiceHeader invoiceHeader, Collection<InvoiceLine> invoiceLines, String customerName) {
