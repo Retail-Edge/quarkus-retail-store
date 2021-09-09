@@ -1,4 +1,4 @@
-package com.redhat.demos.quarkusretailstore.invoicing.infrastructure;
+package com.redhat.demos.quarkusretailstore.ui.infrastructure;
 
 import com.redhat.demos.quarkusretailstore.invoicing.NoSuchInvoiceException;
 import com.redhat.demos.quarkusretailstore.invoicing.api.*;
@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Path("/invoicing")
