@@ -5,16 +5,18 @@ import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceLineDTO;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 public class InvoiceLine extends PanacheEntity {
 
-    @ManyToOne @Cascade(CascadeType.LOCK)
+    @ManyToOne(optional = false)
+    @JoinColumn(
+            name = "skuid",
+            referencedColumnName = "skuid"
+    )
     ProductMaster productMaster;
 
     String productDescripiton;

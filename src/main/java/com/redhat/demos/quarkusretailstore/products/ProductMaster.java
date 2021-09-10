@@ -1,17 +1,19 @@
 package com.redhat.demos.quarkusretailstore.products;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity @NamedQuery(name = "ProductMaster.findBySkuId", query = "from ProductMaster where skuId = ?1")
-public class ProductMaster extends PanacheEntity {
+public class ProductMaster extends PanacheEntityBase {
 
-    @Column(unique = true) @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @Column(unique = true, name = "skuid")
     String skuId;
 
     String description;
+
 
     public ProductMaster(final String skuId, final String description) {
         this.skuId = skuId;

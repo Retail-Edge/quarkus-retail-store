@@ -76,6 +76,12 @@ public class Invoice {
         return invoiceRecord.customerName;
     }
 
+    public InvoiceHeader getInvoiceHeader(){ return invoiceRecord.invoiceHeader; }
+
+    public Collection<InvoiceLine> getInvoiceLines() {
+        return invoiceRecord.getInvoiceLines();
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Invoice{");

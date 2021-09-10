@@ -11,4 +11,9 @@ import javax.transaction.Transactional;
 @ApplicationScoped
 public class InvoiceRepository implements PanacheRepository<InvoiceRecord> {
 
+    public Invoice persist(Invoice invoice){
+        persist(invoice.invoiceRecord);
+        return invoice;
+    }
+
 }

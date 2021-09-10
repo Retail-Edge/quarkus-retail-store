@@ -3,6 +3,7 @@ package com.redhat.demos.quarkusretailstore.invoicing.domain;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -17,10 +18,10 @@ class InvoiceRecord extends PanacheEntity {
     @Column(name = "invoice_id", nullable = false, unique = true)
     String invoiceId;
 
-    @OneToOne
+    @OneToOne @Cascade(org.hibernate.annotations.CascadeType.ALL)
     InvoiceHeader invoiceHeader;
 
-    @OneToMany
+    @OneToMany @Cascade(org.hibernate.annotations.CascadeType.ALL)
     Collection<InvoiceLine> invoiceLines;
 
     String customerName;

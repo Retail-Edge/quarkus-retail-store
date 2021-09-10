@@ -26,6 +26,7 @@ public class InvoicingResource {
     @POST
     public Response createInvoice(final InvoiceJson invoiceJson) {
 
+        LOGGER.debug("creating invoice from: {}", invoiceJson);
         // Marshall an InvoiceDTO from the InvoiceJson
         InvoiceDTO invoiceDTO = new InvoiceDTO(
                 invoiceJson.getInvoiceId(),
