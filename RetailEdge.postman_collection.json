@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Add Inventory",
+			"name": "Inventory - Add",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
 					"accept": true
@@ -28,7 +28,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"productMaster\":{\"skuId\":\"58d1874e-f733-4ac1-8b79-1deaa074d461\",\"description\":\"A product description\"},\"unitCost\":19.99,\"maxRetailPrice\":24.99,\"orderQuantity\":1,\"inStockQuantity\":9,\"backOrderQuantity\":0,\"lastStockDate\":\"2021-08-20T20:03:52.992+00:00\",\"lastSaleDate\":\"2021-08-20T20:03:52.992+00:00\",\"minimumQuantity\":10,\"maximumQuantity\":15}"
+					"raw": "{\"productMaster\":{\"skuId\":\"3b60ea32-311c-4ec6-8f9c-9017819c1a9a\",\"description\":\"Day Dah Dah Dah\"},\"unitCost\":19.99,\"maxRetailPrice\":21.99,\"orderQuantity\":1,\"inStockQuantity\":15,\"backOrderQuantity\":0,\"lastStockDate\":\"2021-08-20T20:03:52.992+00:00\",\"lastSaleDate\":\"2021-08-20T20:03:52.992+00:00\",\"minimumQuantity\":15,\"maximumQuantity\":30}"
 				},
 				"url": {
 					"raw": "localhost:8080/inventory",
@@ -44,7 +44,7 @@
 			"response": []
 		},
 		{
-			"name": "All Inventory",
+			"name": "Inventory - All",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -62,7 +62,7 @@
 			"response": []
 		},
 		{
-			"name": "All Products",
+			"name": "Products - All",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -80,14 +80,14 @@
 			"response": []
 		},
 		{
-			"name": "Update Iinventory",
+			"name": "Inventory - Update",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
 					"accept": true
 				}
 			},
 			"request": {
-				"method": "PATCH",
+				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -102,7 +102,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"productMaster\":{\"skuId\":\"58d1874e-f733-4ac1-8b79-1deaa074d461\",\"description\":\"A product description\"},\"unitCost\":19.99,\"maxRetailPrice\":24.99,\"orderQuantity\":1,\"inStockQuantity\":9,\"backOrderQuantity\":0,\"lastStockDate\":\"2021-08-20T20:03:52.992+00:00\",\"lastSaleDate\":\"2021-08-20T20:03:52.992+00:00\",\"minimumQuantity\":10,\"maximumQuantity\":20}"
+					"raw": "{\"productMaster\":{\"skuId\":\"8bd7c2dd-00f2-4d58-8463-9c40cc9742fc\",\"description\":\"A product description\"},\"unitCost\":30.99,\"maxRetailPrice\":13.99,\"orderQuantity\":1,\"inStockQuantity\":9,\"backOrderQuantity\":0,\"lastStockDate\":\"2021-08-20T20:03:52.992+00:00\",\"lastSaleDate\":\"2021-08-20T20:03:52.992+00:00\",\"minimumQuantity\":10,\"maximumQuantity\":20}"
 				},
 				"url": {
 					"raw": "localhost:8080/inventory",
@@ -118,7 +118,7 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "Inventory - Update",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
 					"accept": true
@@ -140,7 +140,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productMaster\": {\n        \"skuId\": \"8b79-58d1874e-1deaa074d461-f733-4ac1\",\n        \"description\": \"A product\"\n    },\n    \"unitCost\": 19.99,\n    \"maxRetailPrice\": 24.99,\n    \"orderQuantity\": 1,\n    \"inStockQuantity\": 8,\n    \"backOrderQuantity\": 0,\n    \"lastStockDate\": \"2021-08-20T16:03:52.992\",\n    \"lastSaleDate\": \"2021-08-20T16:03:52.992\",\n    \"minimumQuantity\": 10,\n    \"maximumQuantity\": 15\n}"
+					"raw": "{\n        \"productMaster\": {\n            \"id\": 1,\n            \"skuId\": \"12d8a120-dcb2-4588-baed-0556074b0559\",\n            \"description\": \"A product\"\n        },\n        \"unitCost\": 14.99,\n        \"maxRetailPrice\": 24.99,\n        \"orderQuantity\": 1,\n        \"inStockQuantity\": 9,\n        \"backOrderQuantity\": 0,\n        \"lastStockDate\": \"2021-08-20T16:03:52.992\",\n        \"lastSaleDate\": \"2021-08-20T16:03:52.992\",\n        \"minimumQuantity\": 10,\n        \"maximumQuantity\": 15\n    }"
 				},
 				"url": {
 					"raw": "localhost:8080/inventory",
@@ -150,6 +150,122 @@
 					"port": "8080",
 					"path": [
 						"inventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - Add",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"A product\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invoice - Add",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"invoiceId\":\"a395d312-5359-4418-8aca-0b5c58408339\",\"invoiceHeader\":{\"id\":\"4a73bae0-1a19-4aed-8a8d-c46be275830f\",\"storeId\":\"ATLANTA-01\",\"date\":1629823359724,\"totalDollarAmount\":35.99,\"numberOfLines\":2},\"invoiceLines\":[{\"skuId\":\"5a8c271c-97cd-4e96-81f7-2db9688e1074\",\"productDescripiton\":\"A product description\",\"billQuantity\":1,\"unitPrice\":21.99,\"extendedPrice\":25.99,\"unitOfMeasure\":\"EACH\"}],\"customerName\":\"Eeyore\"}"
+				},
+				"url": {
+					"raw": "localhost:8080/invoicing",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"invoicing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Products - Get By SkuId",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				},
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/products/8bd7c2dd-00f2-4d58-8463-9c40cc9742fc",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products",
+						"8bd7c2dd-00f2-4d58-8463-9c40cc9742fc"
 					]
 				}
 			},
