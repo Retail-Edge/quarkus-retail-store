@@ -29,13 +29,48 @@ public class InventoryServiceTest {
     @Inject
     InventoryRepository inventoryRepository;
 
+*/
     @Inject
     ProductMasterRepository productMasterRepository;
-*/
 
-    @Test
+    String skuId;
+
+    @Test @Transactional
     public void test() {
-        assertTrue(false);
+
+        ProductMaster product = new ProductMaster( "A Product");
+        productMasterRepository.persist(product);
+        productMasterRepository.flush();
+        skuId = product.getSkuId();
+        assertNotNull(skuId);
+
+        InventoryDTO inventoryDTO = new InventoryDTO(
+                skuId,
+                Double.valueOf(19.99),
+                Double.valueOf(24.99),
+                1,
+                8,
+                0,
+                Calendar.getInstance().getTime(),
+                Calendar.getInstance().getTime(),
+                10,
+                15,
+                12,
+                0
+        );
+
+        ProductMaster productMaster = ProductMaster.findBySkuId(skuId);
+        Inventory inventory = Inventory.from(inventoryDTO, productMaster);
+        LOGGER.debug("inventory: {}", inventory);
+        assertEquals(productMaster.getSkuId(), inventory.getProductMaster().getSkuId());
+        assertNotNull(inventory);
+        assertEquals(Double.valueOf(19.99), inventory.getUnitCost());
+        assertEquals(Double.valueOf(24.99), inventory.getMaxRetailPrice());
+        assertEquals(1, inventory.getOrderQuantity());
+        assertEquals(8, inventory.getInStockQuantity());
+        assertEquals(0, inventory.getBackOrderQuantity());
+        assertEquals(10, inventory.getMinimumQuantity());
+        assertEquals(15, inventory.getMaximumQuantity());
     }
 
 /*
