@@ -1,25 +1,21 @@
 package com.redhat.demos.quarkusretailstore.invoicing.api;
 
 import com.redhat.demos.quarkusretailstore.invoicing.UnitOfMeasure;
-import com.redhat.demos.quarkusretailstore.products.ProductMaster;
-import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
-
-import java.math.BigDecimal;
 
 public class InvoiceLineDTO {
 
-    final ProductMasterDTO productMaster;
+    final String skuId;
 
-    final BigDecimal billQuantity;
+    final Double billQuantity;
 
     final Double unitPrice;
 
-    final BigDecimal extendedPrice;
+    final Double extendedPrice;
 
     final UnitOfMeasure unitOfMeasure;
 
-    public InvoiceLineDTO(ProductMaster productMaster, BigDecimal billQuantity, Double unitPrice, BigDecimal extendedPrice, UnitOfMeasure unitOfMeasure) {
-        this.productMaster = new ProductMasterDTO(productMaster.getSkuId().toString(), productMaster.getDescription());
+    public InvoiceLineDTO(String skuId, Double billQuantity, Double unitPrice, Double extendedPrice, UnitOfMeasure unitOfMeasure) {
+        this.skuId = skuId;
         this.billQuantity = billQuantity;
         this.unitPrice = unitPrice;
         this.extendedPrice = extendedPrice;
@@ -29,7 +25,7 @@ public class InvoiceLineDTO {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InvoiceLineDTO{");
-        sb.append("prductMaster=").append(productMaster);
+        sb.append("skuId='").append(skuId).append('\'');
         sb.append(", billQuantity=").append(billQuantity);
         sb.append(", unitPrice=").append(unitPrice);
         sb.append(", extendedPrice=").append(extendedPrice);
@@ -45,7 +41,7 @@ public class InvoiceLineDTO {
 
         InvoiceLineDTO that = (InvoiceLineDTO) o;
 
-        if (productMaster != null ? !productMaster.equals(that.productMaster) : that.productMaster != null) return false;
+        if (skuId != null ? !skuId.equals(that.skuId) : that.skuId != null) return false;
         if (billQuantity != null ? !billQuantity.equals(that.billQuantity) : that.billQuantity != null) return false;
         if (unitPrice != null ? !unitPrice.equals(that.unitPrice) : that.unitPrice != null) return false;
         if (extendedPrice != null ? !extendedPrice.equals(that.extendedPrice) : that.extendedPrice != null)
@@ -55,7 +51,7 @@ public class InvoiceLineDTO {
 
     @Override
     public int hashCode() {
-        int result = productMaster != null ? productMaster.hashCode() : 0;
+        int result = skuId != null ? skuId.hashCode() : 0;
         result = 31 * result + (billQuantity != null ? billQuantity.hashCode() : 0);
         result = 31 * result + (unitPrice != null ? unitPrice.hashCode() : 0);
         result = 31 * result + (extendedPrice != null ? extendedPrice.hashCode() : 0);
@@ -63,11 +59,11 @@ public class InvoiceLineDTO {
         return result;
     }
 
-    public ProductMasterDTO getProductMaster() {
-        return productMaster;
+    public String getSkuId() {
+        return skuId;
     }
 
-    public BigDecimal getBillQuantity() {
+    public Double getBillQuantity() {
         return billQuantity;
     }
 
@@ -75,7 +71,7 @@ public class InvoiceLineDTO {
         return unitPrice;
     }
 
-    public BigDecimal getExtendedPrice() {
+    public Double getExtendedPrice() {
         return extendedPrice;
     }
 

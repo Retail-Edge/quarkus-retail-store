@@ -1,14 +1,10 @@
 package com.redhat.demos.quarkusretailstore.inventory.api;
 
-import com.redhat.demos.quarkusretailstore.products.ProductMaster;
-import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class InventoryDTO {
 
-    final ProductMasterDTO productMaster;
+    final String skuId;
 
     final Double unitCost;
 
@@ -20,16 +16,20 @@ public class InventoryDTO {
 
     final int backOrderQuantity;
 
-    final LocalDateTime lastStockDate;
+    final Date lastStockDate;
 
-    final LocalDateTime lastSaleDate;
+    final Date lastSaleDate;
 
     final int minimumQuantity;
 
     final int maximumQuantity;
 
-    public InventoryDTO(ProductMasterDTO productMaster, Double unitCost, Double maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
-        this.productMaster = productMaster;
+    final int reservedQuantity;
+
+    final int availableQuantity;
+
+    public InventoryDTO(String skuId, Double unitCost, Double maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, Date lastStockDate, Date lastSaleDate, int minimumQuantity, int maximumQuantity, int reservedQuantity, int availableQuantity) {
+        this.skuId = skuId;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
         this.orderQuantity = orderQuantity;
@@ -39,12 +39,40 @@ public class InventoryDTO {
         this.lastSaleDate = lastSaleDate;
         this.minimumQuantity = minimumQuantity;
         this.maximumQuantity = maximumQuantity;
+        this.reservedQuantity = reservedQuantity;
+        this.availableQuantity = availableQuantity;
+    }
+
+    public InventoryDTO(
+            String skuId,
+            Double unitCost,
+            Double maxRetailPrice,
+            int orderQuantity,
+            int inStockQuantity,
+            int backOrderQuantity,
+            Date lastStockDate,
+            Date lastSaleDate,
+            int minimumQuantity,
+            int maximumQuantity,
+            int reservedQuantity) {
+        this.skuId = skuId;
+        this.unitCost = unitCost;
+        this.maxRetailPrice = maxRetailPrice;
+        this.orderQuantity = orderQuantity;
+        this.inStockQuantity = inStockQuantity;
+        this.backOrderQuantity = backOrderQuantity;
+        this.lastStockDate = lastStockDate;
+        this.lastSaleDate = lastSaleDate;
+        this.minimumQuantity = minimumQuantity;
+        this.maximumQuantity = maximumQuantity;
+        this.reservedQuantity = reservedQuantity;
+        this.availableQuantity = inStockQuantity - reservedQuantity;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InventoryDTO{");
-        sb.append("productMaster=").append(productMaster);
+        sb.append("productMaster=").append(skuId);
         sb.append(", unitCost=").append(unitCost);
         sb.append(", maxRetailPrice=").append(maxRetailPrice);
         sb.append(", orderQuantity=").append(orderQuantity);
@@ -54,6 +82,8 @@ public class InventoryDTO {
         sb.append(", lastSaleDate=").append(lastSaleDate);
         sb.append(", minimumQuantity=").append(minimumQuantity);
         sb.append(", maximumQuantity=").append(maximumQuantity);
+        sb.append(", reservedQuantity=").append(reservedQuantity);
+        sb.append(", availableQuantity=").append(availableQuantity);
         sb.append('}');
         return sb.toString();
     }
@@ -70,7 +100,9 @@ public class InventoryDTO {
         if (backOrderQuantity != that.backOrderQuantity) return false;
         if (minimumQuantity != that.minimumQuantity) return false;
         if (maximumQuantity != that.maximumQuantity) return false;
-        if (productMaster != null ? !productMaster.equals(that.productMaster) : that.productMaster != null)
+        if (reservedQuantity != that.reservedQuantity) return false;
+        if (availableQuantity != that.availableQuantity) return false;
+        if (skuId != null ? !skuId.equals(that.skuId) : that.skuId != null)
             return false;
         if (unitCost != null ? !unitCost.equals(that.unitCost) : that.unitCost != null) return false;
         if (maxRetailPrice != null ? !maxRetailPrice.equals(that.maxRetailPrice) : that.maxRetailPrice != null)
@@ -82,7 +114,7 @@ public class InventoryDTO {
 
     @Override
     public int hashCode() {
-        int result = productMaster != null ? productMaster.hashCode() : 0;
+        int result = skuId != null ? skuId.hashCode() : 0;
         result = 31 * result + (unitCost != null ? unitCost.hashCode() : 0);
         result = 31 * result + (maxRetailPrice != null ? maxRetailPrice.hashCode() : 0);
         result = 31 * result + orderQuantity;
@@ -92,11 +124,13 @@ public class InventoryDTO {
         result = 31 * result + (lastSaleDate != null ? lastSaleDate.hashCode() : 0);
         result = 31 * result + minimumQuantity;
         result = 31 * result + maximumQuantity;
+        result = 31 * result + reservedQuantity;
+        result = 31 * result + availableQuantity;
         return result;
     }
 
-    public ProductMasterDTO getProductMaster() {
-        return productMaster;
+    public String getSkuId() {
+        return skuId;
     }
 
     public Double getUnitCost() {
@@ -119,11 +153,11 @@ public class InventoryDTO {
         return backOrderQuantity;
     }
 
-    public LocalDateTime getLastStockDate() {
+    public Date getLastStockDate() {
         return lastStockDate;
     }
 
-    public LocalDateTime getLastSaleDate() {
+    public Date getLastSaleDate() {
         return lastSaleDate;
     }
 
@@ -133,5 +167,13 @@ public class InventoryDTO {
 
     public int getMaximumQuantity() {
         return maximumQuantity;
+    }
+
+    public int getReservedQuantity() {
+        return reservedQuantity;
+    }
+
+    public int getAvailableQuantity() {
+        return availableQuantity;
     }
 }

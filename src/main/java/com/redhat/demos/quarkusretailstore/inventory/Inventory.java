@@ -7,36 +7,82 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Map;
 
 @Entity
 class Inventory extends PanacheEntity {
 
+    /**
+     * The product
+     */
     @OneToOne
     ProductMaster productMaster;
 
+    /**
+     * Price paid to supplier
+     */
     Double unitCost;
 
+    /**
+     * Maximum price the customer can be charged for this product
+     */
     Double maxRetailPrice;
 
+    /**
+     * Quantity of product that are currently outstanding on a purchase order
+     */
     int orderQuantity;
 
+    /**
+     * Quantity of product currently on site
+     */
     int inStockQuantity;
 
+    /**
+     * Quantity of product that cannot be fulfilled from the supplier
+     */
     int backOrderQuantity;
 
-    LocalDateTime lastStockDate;
+    /**
+     * Last date the product was received
+     */
+    Date lastStockDate;
 
-    LocalDateTime lastSaleDate;
+    /**
+     * Last date an Invoice was created for this product
+     *
+     * @see com.redhat.demos.quarkusretailstore.invoicing.domain.Invoice
+     */
+    Date lastSaleDate;
 
+    /**
+     * Minimum quantity that should be kept in stock (based on previous sales)
+     */
     int minimumQuantity;
 
+    /**
+     * Maximum quantity that should be kept in stock (based on previous sales)
+     */
     int maximumQuantity;
+
+    /**
+     * Number of products on hold for pick up, e-commerce, etc.
+     */
+    int reservedQuantity;
+
+    /**
+     * Derived number: inStockQuantity - reservedQuantity
+     * @return
+     */
+    public int availableQuantity() {
+        return inStockQuantity - reservedQuantity;
+    }
 
     public Inventory() {
     }
 
-    public Inventory(ProductMaster productMaster, Double unitCost, Double maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
+    public Inventory(ProductMaster productMaster, Double unitCost, Double maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, Date lastStockDate, Date lastSaleDate, int minimumQuantity, int maximumQuantity, int reservedQuantity) {
         this.productMaster = productMaster;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
@@ -47,12 +93,13 @@ class Inventory extends PanacheEntity {
         this.lastSaleDate = lastSaleDate;
         this.minimumQuantity = minimumQuantity;
         this.maximumQuantity = maximumQuantity;
+        this.reservedQuantity = reservedQuantity;
     }
 
-    public static Inventory from(final InventoryDTO inventoryDTO) {
+    public static Inventory from(final InventoryDTO inventoryDTO, ProductMaster productMaster) {
 
         return new Inventory(
-                new ProductMaster(inventoryDTO.getProductMaster().getSkuId(), inventoryDTO.getProductMaster().getDescription()),
+                productMaster,
                 inventoryDTO.getUnitCost(),
                 inventoryDTO.getMaxRetailPrice(),
                 inventoryDTO.getOrderQuantity(),
@@ -61,14 +108,15 @@ class Inventory extends PanacheEntity {
                 inventoryDTO.getLastStockDate(),
                 inventoryDTO.getLastSaleDate(),
                 inventoryDTO.getMinimumQuantity(),
-                inventoryDTO.getMaximumQuantity()
+                inventoryDTO.getMaximumQuantity(),
+                inventoryDTO.getReservedQuantity()
         );
     }
 
     public InventoryDTO toInventoryDTO() {
 
         return new InventoryDTO(
-                new ProductMasterDTO(this.productMaster.getSkuId(), this.productMaster.getDescription()),
+                this.productMaster.getSkuId(),
                 this.unitCost,
                 this.maxRetailPrice,
                 this.orderQuantity,
@@ -77,7 +125,9 @@ class Inventory extends PanacheEntity {
                 this.lastStockDate,
                 this.lastSaleDate,
                 this.minimumQuantity,
-                this.maximumQuantity);
+                this.maximumQuantity,
+                this.reservedQuantity,
+                this.availableQuantity());
     }
 
     @Override
@@ -182,19 +232,19 @@ class Inventory extends PanacheEntity {
         this.backOrderQuantity = backOrderQuantity;
     }
 
-    public LocalDateTime getLastStockDate() {
+    public Date getLastStockDate() {
         return lastStockDate;
     }
 
-    public void setLastStockDate(LocalDateTime lastStockDate) {
+    public void setLastStockDate(Date lastStockDate) {
         this.lastStockDate = lastStockDate;
     }
 
-    public LocalDateTime getLastSaleDate() {
+    public Date getLastSaleDate() {
         return lastSaleDate;
     }
 
-    public void setLastSaleDate(LocalDateTime lastSaleDate) {
+    public void setLastSaleDate(Date lastSaleDate) {
         this.lastSaleDate = lastSaleDate;
     }
 

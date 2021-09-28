@@ -23,6 +23,28 @@ public class InvoicingResource {
     @Inject
     InvoiceService invoiceService;
 
+    /**
+     * {
+     *     "invoiceId": "60cfbaaf-530e-437e-820d-d06e21979731",
+     *     "invoiceHeader": {
+     *         "id": "4a73bae0-1a19-4aed-8a8d-c46be275830f",
+     *         "storeId": "ATLANTA-01",
+     *         "date": 1629823359724,
+     *         "totalDollarAmount": 35.99,
+     *         "numberOfLines": 2
+     *     },
+     *     "invoiceLines": [
+     *         {
+     *             "skuId": "f17038b9-7833-4976-8782-9c0dc2d180b4",
+     *             "billQuantity": 1,
+     *             "unitPrice": 21.99
+     *         }
+     *     ],
+     *     "customerName": "Eeyore"
+     * }
+     * @param invoiceJson
+     * @return
+     */
     @POST
     public Response createInvoice(final InvoiceJson invoiceJson) {
 
@@ -37,7 +59,7 @@ public class InvoicingResource {
                         invoiceJson.getInvoiceHeader().getNumberOfLines()),
                         invoiceJson.getInvoiceLines().stream().map(invoiceLineJson -> {
                             return new InvoiceLineDTO(
-                                    new ProductMaster(invoiceLineJson.getProductMaster().getSkuId(), invoiceLineJson.getProductMaster().getDescription()),
+                                    invoiceLineJson.getSkuId(),
                                     invoiceLineJson.getBillQuantity(),
                                     invoiceLineJson.getUnitPrice(),
                                     invoiceLineJson.getExtendedPrice(),
@@ -45,6 +67,7 @@ public class InvoicingResource {
                         }).collect(Collectors.toList()),
                         invoiceJson.getCustomerName());
 
+        LOGGER.debug("Sending InvoiceDTO: {}", invoiceDTO);
         InvoiceDTO result = invoiceService.createInvoice(invoiceDTO);
 
         return Response.status(Response.Status.CREATED).entity(result).build();

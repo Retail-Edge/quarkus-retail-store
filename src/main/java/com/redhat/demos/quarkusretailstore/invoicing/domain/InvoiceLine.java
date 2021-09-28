@@ -1,17 +1,21 @@
 package com.redhat.demos.quarkusretailstore.invoicing.domain;
 
 import com.redhat.demos.quarkusretailstore.invoicing.UnitOfMeasure;
-import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceLineDTO;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+/**
+ * Entity storing each line item of an Invoice
+ */
 @Entity
-public class InvoiceLine extends PanacheEntity {
+public class    InvoiceLine extends PanacheEntity {
 
+    /**
+     * The product
+     */
     @ManyToOne(optional = false)
     @JoinColumn(
             name = "skuid",
@@ -19,25 +23,39 @@ public class InvoiceLine extends PanacheEntity {
     )
     ProductMaster productMaster;
 
-    String productDescripiton;
+    /**
+     * The quantity of product sold to the customer, or a negative quantity for a return
+     */
+    Double billQuantity;
 
-    BigDecimal billQuantity;
-
+    /**
+     * The actual price paid by the customer.  Typically determined by a rules engine.
+     */
     Double unitPrice;
 
-    BigDecimal extendedPrice;
-
+    /**
+     * Unit of sale
+     */
     UnitOfMeasure unitOfMeasure;
+
+    /**
+     * Derived billQuantity * unitPrice
+     *
+     * @return
+     */
+    public Double getExtendedPrice() {
+
+        return billQuantity * unitPrice;
+    }
 
     public InvoiceLine() {
 
     }
 
-    public InvoiceLine(ProductMaster productMaster, BigDecimal billQuantity, Double unitPrice, BigDecimal extendedPrice, UnitOfMeasure unitOfMeasure) {
+    public InvoiceLine(ProductMaster productMaster, Double billQuantity, Double unitPrice, UnitOfMeasure unitOfMeasure) {
         this.productMaster = productMaster;
         this.billQuantity = billQuantity;
         this.unitPrice = unitPrice;
-        this.extendedPrice = extendedPrice;
         this.unitOfMeasure = unitOfMeasure;
     }
 
@@ -48,37 +66,20 @@ public class InvoiceLine extends PanacheEntity {
 
         InvoiceLine that = (InvoiceLine) o;
 
-        if (billQuantity != that.billQuantity) return false;
-        if (productDescripiton != null ? !productDescripiton.equals(that.productDescripiton) : that.productDescripiton != null)
+        if (productMaster != null ? !productMaster.equals(that.productMaster) : that.productMaster != null)
             return false;
+        if (billQuantity != null ? !billQuantity.equals(that.billQuantity) : that.billQuantity != null) return false;
         if (unitPrice != null ? !unitPrice.equals(that.unitPrice) : that.unitPrice != null) return false;
-        if (extendedPrice != null ? !extendedPrice.equals(that.extendedPrice) : that.extendedPrice != null)
-            return false;
         return unitOfMeasure == that.unitOfMeasure;
     }
 
     @Override
     public int hashCode() {
         int result = productMaster != null ? productMaster.hashCode() : 0;
-        result = 31 * result + (productDescripiton != null ? productDescripiton.hashCode() : 0);
         result = 31 * result + (billQuantity != null ? billQuantity.hashCode() : 0);
         result = 31 * result + (unitPrice != null ? unitPrice.hashCode() : 0);
-        result = 31 * result + (extendedPrice != null ? extendedPrice.hashCode() : 0);
         result = 31 * result + (unitOfMeasure != null ? unitOfMeasure.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("InvoiceLine{");
-        sb.append("productDescripiton='").append(productDescripiton).append('\'');
-        sb.append(", billQuantity=").append(billQuantity);
-        sb.append(", unitPrice=").append(unitPrice);
-        sb.append(", extendedPrice=").append(extendedPrice);
-        sb.append(", unitOfMeasure=").append(unitOfMeasure);
-        sb.append(", id=").append(id);
-        sb.append('}');
-        return sb.toString();
     }
 
     public ProductMaster getProductMaster() {
@@ -89,19 +90,11 @@ public class InvoiceLine extends PanacheEntity {
         this.productMaster = productMaster;
     }
 
-    public String getProductDescripiton() {
-        return productDescripiton;
-    }
-
-    public void setProductDescripiton(String productDescripiton) {
-        this.productDescripiton = productDescripiton;
-    }
-
-    public BigDecimal getBillQuantity() {
+    public Double getBillQuantity() {
         return billQuantity;
     }
 
-    public void setBillQuantity(BigDecimal billQuantity) {
+    public void setBillQuantity(Double billQuantity) {
         this.billQuantity = billQuantity;
     }
 
@@ -111,14 +104,6 @@ public class InvoiceLine extends PanacheEntity {
 
     public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
-    }
-
-    public BigDecimal getExtendedPrice() {
-        return extendedPrice;
-    }
-
-    public void setExtendedPrice(BigDecimal extendedPrice) {
-        this.extendedPrice = extendedPrice;
     }
 
     public UnitOfMeasure getUnitOfMeasure() {

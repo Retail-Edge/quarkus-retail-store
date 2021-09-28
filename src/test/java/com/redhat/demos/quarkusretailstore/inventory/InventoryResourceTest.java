@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
@@ -43,16 +42,17 @@ public class InventoryResourceTest {
     public void testUpdatingInventory() {
 
         with().body(JsonUtil.toJson(new InventoryJson(
-                        new ProductMasterDTO(skuId, "A new product description"),
+                        skuId,
                         Double.valueOf(19.99),
                         Double.valueOf(24.99),
                         1,
                         9,
                         0,
-                        LocalDateTime.of(2021, 8, 15, 4, 30),
-                        LocalDateTime.now().minusMinutes(3),
+                        Calendar.getInstance().getTime(),
+                        Calendar.getInstance().getTime(),
                         10,
-                        15
+                        15,
+                12
                 )))
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
@@ -66,29 +66,31 @@ public class InventoryResourceTest {
     public void testAddingInventory() {
 
         System.out.println(JsonUtil.toJson(new InventoryJson(
-                new ProductMasterDTO(skuId, "A product description"),
+                skuId,
                 Double.valueOf(19.99),
                 Double.valueOf(24.99),
                 1,
                 9,
                 0,
-                LocalDateTime.of(2021, 8, 15, 4, 30),
-                LocalDateTime.now().minusMinutes(3),
+                Calendar.getInstance().getTime(),
+                Calendar.getInstance().getTime(),
                 10,
-                15
+                15,
+                12
         )));
 
         with().body(JsonUtil.toJson(new InventoryJson(
-                        new ProductMasterDTO(skuId, "A product description"),
+                        skuId,
                         Double.valueOf(19.99),
                         Double.valueOf(24.99),
                         1,
                         9,
                         0,
-                        LocalDateTime.of(2021, 8, 15, 4, 30),
-                        LocalDateTime.now().minusMinutes(3),
+                        Calendar.getInstance().getTime(),
+                        Calendar.getInstance().getTime(),
                         10,
-                        15
+                        15,
+                    12
                 )))
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)

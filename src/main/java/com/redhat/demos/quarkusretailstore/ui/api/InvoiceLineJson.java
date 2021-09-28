@@ -5,23 +5,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.redhat.demos.quarkusretailstore.invoicing.UnitOfMeasure;
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceLineDTO;
 
-import java.math.BigDecimal;
-
 public class InvoiceLineJson {
 
-    final ProductMasterJson productMaster;
+    final String skuId;
 
-    final BigDecimal billQuantity;
+    final Double billQuantity;
 
     final Double unitPrice;
 
-    final BigDecimal extendedPrice;
+    final Double extendedPrice;
 
     final UnitOfMeasure unitOfMeasure;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public InvoiceLineJson(@JsonProperty("productMaster") ProductMasterJson productMasterJson, @JsonProperty("billQuantity") BigDecimal billQuantity, @JsonProperty("unitPrice") Double unitPrice, @JsonProperty("extendedPrice") BigDecimal extendedPrice, @JsonProperty("unitOfMeasure") UnitOfMeasure unitOfMeasure) {
-        this.productMaster = productMasterJson;
+    public InvoiceLineJson(@JsonProperty("skuId") String skuId, @JsonProperty("billQuantity") Double billQuantity, @JsonProperty("unitPrice") Double unitPrice, @JsonProperty("extendedPrice") Double extendedPrice, @JsonProperty("unitOfMeasure") UnitOfMeasure unitOfMeasure) {
+        this.skuId = skuId;
         this.billQuantity = billQuantity;
         this.unitPrice = unitPrice;
         this.extendedPrice = extendedPrice;
@@ -29,7 +27,7 @@ public class InvoiceLineJson {
     }
 
     public InvoiceLineJson(final InvoiceLineDTO invoiceLineDTO) {
-        this.productMaster = new ProductMasterJson(invoiceLineDTO.getProductMaster().getSkuId(), invoiceLineDTO.getProductMaster().getDescription());
+        this.skuId = invoiceLineDTO.getSkuId();
         this.billQuantity = invoiceLineDTO.getBillQuantity();
         this.unitPrice = invoiceLineDTO.getUnitPrice();
         this.extendedPrice = invoiceLineDTO.getExtendedPrice();
@@ -39,7 +37,7 @@ public class InvoiceLineJson {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InvoiceLineJson{");
-        sb.append("productMaster=").append(productMaster);
+        sb.append("skuId='").append(skuId).append('\'');
         sb.append(", billQuantity=").append(billQuantity);
         sb.append(", unitPrice=").append(unitPrice);
         sb.append(", extendedPrice=").append(extendedPrice);
@@ -55,8 +53,7 @@ public class InvoiceLineJson {
 
         InvoiceLineJson that = (InvoiceLineJson) o;
 
-        if (productMaster != null ? !productMaster.equals(that.productMaster) : that.productMaster != null)
-            return false;
+        if (skuId != null ? !skuId.equals(that.skuId) : that.skuId != null) return false;
         if (billQuantity != null ? !billQuantity.equals(that.billQuantity) : that.billQuantity != null) return false;
         if (unitPrice != null ? !unitPrice.equals(that.unitPrice) : that.unitPrice != null) return false;
         if (extendedPrice != null ? !extendedPrice.equals(that.extendedPrice) : that.extendedPrice != null)
@@ -66,7 +63,7 @@ public class InvoiceLineJson {
 
     @Override
     public int hashCode() {
-        int result = productMaster != null ? productMaster.hashCode() : 0;
+        int result = skuId != null ? skuId.hashCode() : 0;
         result = 31 * result + (billQuantity != null ? billQuantity.hashCode() : 0);
         result = 31 * result + (unitPrice != null ? unitPrice.hashCode() : 0);
         result = 31 * result + (extendedPrice != null ? extendedPrice.hashCode() : 0);
@@ -74,11 +71,11 @@ public class InvoiceLineJson {
         return result;
     }
 
-    public ProductMasterJson getProductMaster() {
-        return productMaster;
+    public String getSkuId() {
+        return skuId;
     }
 
-    public BigDecimal getBillQuantity() {
+    public Double getBillQuantity() {
         return billQuantity;
     }
 
@@ -86,7 +83,7 @@ public class InvoiceLineJson {
         return unitPrice;
     }
 
-    public BigDecimal getExtendedPrice() {
+    public Double getExtendedPrice() {
         return extendedPrice;
     }
 

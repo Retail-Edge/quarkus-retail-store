@@ -5,6 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Entity @NamedQuery(name = "ProductMaster.findBySkuId", query = "from ProductMaster where skuId = ?1")
 public class ProductMaster extends PanacheEntityBase {
@@ -21,6 +22,7 @@ public class ProductMaster extends PanacheEntityBase {
     }
 
     public ProductMaster(String description) {
+        this.skuId = UUID.randomUUID().toString();
         this.description = description;
     }
 

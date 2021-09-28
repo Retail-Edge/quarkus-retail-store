@@ -3,7 +3,6 @@ package com.redhat.demos.quarkusretailstore.ui.infrastructure;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
 import com.redhat.demos.quarkusretailstore.inventory.api.NoSuchInventoryRecordException;
-import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 import com.redhat.demos.quarkusretailstore.ui.api.InventoryJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +14,7 @@ import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collection;
+import java.util.Date;
 
 @Path("/inventory")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -40,22 +40,23 @@ public class InventoryResource {
         LOGGER.debug("creating inventory from: {}", inventoryJson);
 
         InventoryDTO inventoryDTO = new InventoryDTO(
-                new ProductMasterDTO(inventoryJson.getProductMaster().getSkuId(), inventoryJson.getProductMaster().getDescription()),
+                inventoryJson.getSkuId(),
                 inventoryJson.getUnitCost(),
                 inventoryJson.maxRetailPrice,
                 inventoryJson.orderQuantity,
                 inventoryJson.inStockQuantity,
                 inventoryJson.backOrderQuantity,
-                LocalDateTime.ofInstant(inventoryJson.lastStockDate.toInstant(), ZoneId.systemDefault()),
-                LocalDateTime.ofInstant(inventoryJson.lastSaleDate.toInstant(), ZoneId.systemDefault()),
+                inventoryJson.lastStockDate,
+                inventoryJson.lastSaleDate,
                 inventoryJson.minimumQuantity,
-                inventoryJson.maximumQuantity
+                inventoryJson.maximumQuantity,
+                inventoryJson.getReservedQuantity()
         );
 
         InventoryDTO result = inventoryService.addInventory(inventoryDTO);
 
         return Response.status(Response.Status.CREATED).entity(new InventoryJson(
-                result.getProductMaster(),
+                result.getSkuId(),
                 result.getUnitCost(),
                 result.getMaxRetailPrice(),
                 result.getOrderQuantity(),
@@ -64,7 +65,8 @@ public class InventoryResource {
                 result.getLastStockDate(),
                 result.getLastSaleDate(),
                 result.getMinimumQuantity(),
-                result.getMaximumQuantity())).build();
+                result.getMaximumQuantity(),
+                result.getReservedQuantity())).build();
     }
 
     @PUT
@@ -74,22 +76,22 @@ public class InventoryResource {
 
         try {
             InventoryDTO inventoryDTO = new InventoryDTO(
-                    inventoryJson.getProductMaster(),
-                    inventoryJson.unitCost,
-                    inventoryJson.maxRetailPrice,
-                    inventoryJson.orderQuantity,
-                    inventoryJson.inStockQuantity,
-                    inventoryJson.backOrderQuantity,
-                    LocalDateTime.ofInstant(inventoryJson.lastStockDate.toInstant(), ZoneId.systemDefault()),
-                    LocalDateTime.ofInstant(inventoryJson.lastSaleDate.toInstant(), ZoneId.systemDefault()),
-                    inventoryJson.minimumQuantity,
-                    inventoryJson.maximumQuantity
-            );
+                    inventoryJson.getSkuId(),
+                    inventoryJson.getUnitCost(),
+                    inventoryJson.getMaxRetailPrice(),
+                    inventoryJson.getOrderQuantity(),
+                    inventoryJson.getInStockQuantity(),
+                    inventoryJson.getBackOrderQuantity(),
+                    inventoryJson.getLastStockDate(),
+                    inventoryJson.getLastSaleDate(),
+                    inventoryJson.getMinimumQuantity(),
+                    inventoryJson.getMaximumQuantity(),
+                    inventoryJson.getReservedQuantity());
 
             InventoryDTO result = inventoryService.updateInventory(inventoryDTO);
 
             return Response.status(Response.Status.OK).entity(new InventoryJson(
-                    inventoryDTO.getProductMaster(),
+                    inventoryDTO.getSkuId(),
                     inventoryDTO.getUnitCost(),
                     inventoryDTO.getMaxRetailPrice(),
                     inventoryDTO.getOrderQuantity(),
@@ -98,7 +100,8 @@ public class InventoryResource {
                     inventoryDTO.getLastStockDate(),
                     inventoryDTO.getLastSaleDate(),
                     inventoryDTO.getMinimumQuantity(),
-                    inventoryDTO.getMaximumQuantity())).build();
+                    inventoryDTO.getMaximumQuantity(),
+                    inventoryDTO.getReservedQuantity())).build();
 
         } catch (NoSuchInventoryRecordException e) {
             return Response.status(Response.Status.OK).entity(null).build();

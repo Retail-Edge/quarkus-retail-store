@@ -2,15 +2,12 @@ package com.redhat.demos.quarkusretailstore.ui.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 
 public class InventoryJson {
 
-    public final ProductMasterDTO productMaster;
+    public final String skuId;
 
     public final Double unitCost;
 
@@ -30,22 +27,11 @@ public class InventoryJson {
 
     public final int maximumQuantity;
 
-    public InventoryJson(ProductMasterDTO productMaster, Double unitCost, Double maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, LocalDateTime lastStockDate, LocalDateTime lastSaleDate, int minimumQuantity, int maximumQuantity) {
-        this.productMaster = productMaster;
-        this.unitCost = unitCost;
-        this.maxRetailPrice = maxRetailPrice;
-        this.orderQuantity = orderQuantity;
-        this.inStockQuantity = inStockQuantity;
-        this.backOrderQuantity = backOrderQuantity;
-        this.lastStockDate = Date.from(lastStockDate.toLocalDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        this.lastSaleDate = Date.from(lastSaleDate.toLocalDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        this.minimumQuantity = minimumQuantity;
-        this.maximumQuantity = maximumQuantity;
-    }
+    final int reservedQuantity;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public InventoryJson(@JsonProperty("productMaster") ProductMasterDTO productMaster, @JsonProperty("unitCost") Double unitCost, @JsonProperty("maxRetailPrice") Double maxRetailPrice, @JsonProperty("orderQuantity") int orderQuantity, @JsonProperty("inStockQuantity") int inStockQuantity, @JsonProperty("backOrderQuantity") int backOrderQuantity, @JsonProperty("lastStockDate") Date lastStockDate, @JsonProperty("lastSaleDate") Date lastSaleDate, @JsonProperty("minimumQuantity") int minimumQuantity, @JsonProperty("maximumQuantity") int maximumQuantity) {
-        this.productMaster = productMaster;
+    public InventoryJson(@JsonProperty("productMaster") String skuId, @JsonProperty("unitCost") Double unitCost, @JsonProperty("maxRetailPrice") Double maxRetailPrice, @JsonProperty("orderQuantity") int orderQuantity, @JsonProperty("inStockQuantity") int inStockQuantity, @JsonProperty("backOrderQuantity") int backOrderQuantity, @JsonProperty("lastStockDate") Date lastStockDate, @JsonProperty("lastSaleDate") Date lastSaleDate, @JsonProperty("minimumQuantity") int minimumQuantity, @JsonProperty("maximumQuantity") int maximumQuantity, @JsonProperty("reservedQuantity") int reservedQuantity) {
+        this.skuId = skuId;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
         this.orderQuantity = orderQuantity;
@@ -55,12 +41,13 @@ public class InventoryJson {
         this.lastSaleDate = lastSaleDate;
         this.minimumQuantity = minimumQuantity;
         this.maximumQuantity = maximumQuantity;
+        this.reservedQuantity = reservedQuantity;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InventoryJson{");
-        sb.append("productMaster=").append(productMaster);
+        sb.append("productMaster=").append(skuId);
         sb.append(", unitCost=").append(unitCost);
         sb.append(", maxRetailPrice=").append(maxRetailPrice);
         sb.append(", orderQuantity=").append(orderQuantity);
@@ -70,6 +57,7 @@ public class InventoryJson {
         sb.append(", lastSaleDate=").append(lastSaleDate);
         sb.append(", minimumQuantity=").append(minimumQuantity);
         sb.append(", maximumQuantity=").append(maximumQuantity);
+        sb.append(", reservedQuantity=").append(reservedQuantity);
         sb.append('}');
         return sb.toString();
     }
@@ -86,7 +74,8 @@ public class InventoryJson {
         if (backOrderQuantity != that.backOrderQuantity) return false;
         if (minimumQuantity != that.minimumQuantity) return false;
         if (maximumQuantity != that.maximumQuantity) return false;
-        if (productMaster != null ? !productMaster.equals(that.productMaster) : that.productMaster != null)
+        if (reservedQuantity != that.reservedQuantity) return false;
+        if (skuId != null ? !skuId.equals(that.skuId) : that.skuId != null)
             return false;
         if (unitCost != null ? !unitCost.equals(that.unitCost) : that.unitCost != null) return false;
         if (maxRetailPrice != null ? !maxRetailPrice.equals(that.maxRetailPrice) : that.maxRetailPrice != null)
@@ -98,7 +87,7 @@ public class InventoryJson {
 
     @Override
     public int hashCode() {
-        int result = productMaster != null ? productMaster.hashCode() : 0;
+        int result = skuId != null ? skuId.hashCode() : 0;
         result = 31 * result + (unitCost != null ? unitCost.hashCode() : 0);
         result = 31 * result + (maxRetailPrice != null ? maxRetailPrice.hashCode() : 0);
         result = 31 * result + orderQuantity;
@@ -108,11 +97,12 @@ public class InventoryJson {
         result = 31 * result + (lastSaleDate != null ? lastSaleDate.hashCode() : 0);
         result = 31 * result + minimumQuantity;
         result = 31 * result + maximumQuantity;
+        result = 31 * result + reservedQuantity;
         return result;
     }
 
-    public ProductMasterDTO getProductMaster() {
-        return productMaster;
+    public String getSkuId() {
+        return skuId;
     }
 
     public Double getUnitCost() {
@@ -149,5 +139,9 @@ public class InventoryJson {
 
     public int getMaximumQuantity() {
         return maximumQuantity;
+    }
+
+    public int getReservedQuantity() {
+        return reservedQuantity;
     }
 }

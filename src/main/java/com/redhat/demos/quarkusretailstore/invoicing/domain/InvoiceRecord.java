@@ -10,14 +10,24 @@ import java.util.Collection;
 import java.util.UUID;
 
 /**
- * Entity storing Invoice data
- */
+   * Entity storing Invoice data.  This class is essentially a wrapper for the InvoiceHeader and InvoiceLines, the combination of which make up an Invoice.
+   *
+   * @see InvoiceHeader
+   * @see InvoiceLine
+   *
+   */
 @Entity
 class InvoiceRecord extends PanacheEntity {
 
+    /**
+     * Unique id
+     */
     @Column(name = "invoice_id", nullable = false, unique = true)
     String invoiceId;
 
+    /**
+     *
+     */
     @OneToOne @Cascade(org.hibernate.annotations.CascadeType.ALL)
     InvoiceHeader invoiceHeader;
 

@@ -17,6 +17,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -34,7 +35,15 @@ public class InvoiceServiceImpl implements InvoiceService {
     public InvoiceDTO createInvoice(final InvoiceDTO invoiceDTO) {
 
         LOGGER.debug("creating invoice for: {}", invoiceDTO);
-        InvoiceEventResult  invoiceEventResult = Invoice.create(invoiceDTO);
+        LOGGER.debug("looking up products");
+        HashMap<String, ProductMaster> products = new HashMap<>(invoiceDTO.getInvoiceLines().size());
+        invoiceDTO.getInvoiceLines().forEach(invoiceLineDTO -> {
+            ProductMaster productMaster = ProductMaster.findBySkuId(invoiceLineDTO.getSkuId());
+            products.put(productMaster.getSkuId(), productMaster);
+            LOGGER.debug("added product: {}",  productMaster);
+        });
+
+        InvoiceEventResult  invoiceEventResult = Invoice.create(invoiceDTO, products);
         LOGGER.debug("invoice created: {}", invoiceEventResult.getInvoice());
         Invoice invoice = invoiceRepository.persist(invoiceEventResult.getInvoice());
         LOGGER.debug("invoice persisted {}", invoice);
@@ -45,7 +54,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 invoice.getId(),
                 new InvoiceHeaderDTO(invoice.getInvoiceHeader()),
                 invoice.getInvoiceLines().stream().map(invoiceLine -> {
-                    return new InvoiceLineDTO(invoiceLine.getProductMaster(), invoiceLine.getBillQuantity(), invoiceLine.getUnitPrice(), invoiceLine.getExtendedPrice(), invoiceLine.getUnitOfMeasure());}).collect(Collectors.toList()),
+                    return new InvoiceLineDTO(invoiceLine.getProductMaster().getSkuId(), invoiceLine.getBillQuantity(), invoiceLine.getUnitPrice(), invoiceLine.getExtendedPrice(), invoiceLine.getUnitOfMeasure());}).collect(Collectors.toList()),
                 invoice.getCustomer());
     }
 

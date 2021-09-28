@@ -1,14 +1,14 @@
 package com.redhat.demos.quarkusretailstore.invoicing.domain;
 
-import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceHeaderDTO;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
 
+/**
+ * Contains summary details for an Invoice.
+ * The invoice header is contains key aspects of the bill such as the date the invoice should be sent, customer references, currency and any other details
+ */
 @Entity
 public class InvoiceHeader extends PanacheEntity {
 
@@ -19,6 +19,22 @@ public class InvoiceHeader extends PanacheEntity {
     Double totalDollarAmount;
 
     int numberOfLines;
+
+    /**
+     * Simplification of tax
+     * @return
+     */
+    public Double primaryTax() {
+        return totalDollarAmount * 0.07;
+    }
+
+    /**
+     * Derived amount representing the actual dollar amount of the Invoice
+     * @return
+     */
+    public Double finalInvoiceAmount() {
+        return totalDollarAmount + primaryTax();
+    }
 
     public InvoiceHeader() {
 
