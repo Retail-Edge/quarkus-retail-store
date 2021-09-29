@@ -9,6 +9,16 @@
     "database.password": "redhat-21",
     "database.dbname": "retaildb",
     "database.server.name": "retaildb1",
-    "schema.include.list": "retail"
+    "schema.include.list": "retail",
+    "tombstones.on.delete": "false",
+    "transforms": "outbox",
+    "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
+    "transforms.outbox.route.topic.replacement": "outbox.${routedByValue}.events",
+    "transforms.outbox.table.field.event.id": "id",
+    "transforms.outbox.table.field.event.key": "aggregateid",
+    "transforms.outbox.table.field.event.timestamp": "timestamp",
+    "transforms.outbox.table.field.event.payload.id": "aggregateid",
+    "transforms.outbox.route.by.field": "type",
+    "transforms.outbox.table.fields.additional.placement": "id:envelope:Id,type:envelope:eventType"
   }
 }
