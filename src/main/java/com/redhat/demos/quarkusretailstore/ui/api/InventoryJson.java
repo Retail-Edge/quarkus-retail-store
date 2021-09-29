@@ -30,7 +30,7 @@ public class InventoryJson {
     final int reservedQuantity;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public InventoryJson(@JsonProperty("productMaster") String skuId, @JsonProperty("unitCost") Double unitCost, @JsonProperty("maxRetailPrice") Double maxRetailPrice, @JsonProperty("orderQuantity") int orderQuantity, @JsonProperty("inStockQuantity") int inStockQuantity, @JsonProperty("backOrderQuantity") int backOrderQuantity, @JsonProperty("lastStockDate") Date lastStockDate, @JsonProperty("lastSaleDate") Date lastSaleDate, @JsonProperty("minimumQuantity") int minimumQuantity, @JsonProperty("maximumQuantity") int maximumQuantity, @JsonProperty("reservedQuantity") int reservedQuantity) {
+    public InventoryJson(@JsonProperty("skuId") String skuId, @JsonProperty("unitCost") Double unitCost, @JsonProperty("maxRetailPrice") Double maxRetailPrice, @JsonProperty("orderQuantity") int orderQuantity, @JsonProperty("inStockQuantity") int inStockQuantity, @JsonProperty("backOrderQuantity") int backOrderQuantity, @JsonProperty("lastStockDate") Date lastStockDate, @JsonProperty("lastSaleDate") Date lastSaleDate, @JsonProperty("minimumQuantity") int minimumQuantity, @JsonProperty("maximumQuantity") int maximumQuantity, @JsonProperty("reservedQuantity") int reservedQuantity) {
         this.skuId = skuId;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
@@ -47,7 +47,7 @@ public class InventoryJson {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InventoryJson{");
-        sb.append("productMaster=").append(skuId);
+        sb.append("skuId=").append(skuId);
         sb.append(", unitCost=").append(unitCost);
         sb.append(", maxRetailPrice=").append(maxRetailPrice);
         sb.append(", orderQuantity=").append(orderQuantity);

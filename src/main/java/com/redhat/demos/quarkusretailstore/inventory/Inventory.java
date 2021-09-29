@@ -6,6 +6,7 @@ import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import java.util.Date;
 import java.util.Map;
@@ -16,7 +17,7 @@ class Inventory extends PanacheEntity {
     /**
      * The product
      */
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     ProductMaster productMaster;
 
     /**

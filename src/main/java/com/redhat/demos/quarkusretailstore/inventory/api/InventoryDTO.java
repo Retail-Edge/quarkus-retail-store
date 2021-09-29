@@ -72,7 +72,7 @@ public class InventoryDTO {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InventoryDTO{");
-        sb.append("productMaster=").append(skuId);
+        sb.append("skuId=").append(skuId);
         sb.append(", unitCost=").append(unitCost);
         sb.append(", maxRetailPrice=").append(maxRetailPrice);
         sb.append(", orderQuantity=").append(orderQuantity);
