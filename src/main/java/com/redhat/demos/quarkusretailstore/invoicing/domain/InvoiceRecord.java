@@ -58,9 +58,18 @@ class InvoiceRecord extends PanacheEntity {
     public String toString() {
         final StringBuilder sb = new StringBuilder("InvoiceRecord{");
         sb.append("customerName='").append(customerName).append('\'');
-        sb.append(", id=").append(invoiceId);
+        sb.append(", invoiceId=").append(invoiceId).append('\'');
+        sb.append(", invoiceLines=[").append(invoiceLines).append("]");
         sb.append('}');
         return sb.toString();
+    }
+
+    public String getInvoiceId() {
+        return invoiceId;
+    }
+
+    public void setInvoiceId(String invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     public InvoiceHeader getInvoiceHeader() {

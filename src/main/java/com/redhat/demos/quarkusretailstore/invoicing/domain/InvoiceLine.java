@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * Entity storing each line item of an Invoice
  */
 @Entity
-public class    InvoiceLine extends PanacheEntity {
+public class InvoiceLine extends PanacheEntity {
 
     /**
      * The product

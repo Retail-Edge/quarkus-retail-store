@@ -4,6 +4,8 @@ import com.redhat.demos.quarkusretailstore.inventory.Inventory;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
@@ -14,6 +16,8 @@ import java.util.*;
 @Alternative
 @ApplicationScoped
 public class MockInventoryService implements InventoryService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MockInventoryService.class);
 
     Collection<InventoryDTO> completeInventory = new ArrayList(
             Arrays.asList(
@@ -80,8 +84,9 @@ public class MockInventoryService implements InventoryService {
     }
 
     @Override
-    public InventoryDTO addInventory(InventoryDTO inventoryDTO) {
+    public InventoryDTO addInventory(final InventoryDTO inventoryDTO) {
 
+        LOGGER.info("adding inventory for: {}", inventoryDTO);
         return inventoryDTO;
     }
 

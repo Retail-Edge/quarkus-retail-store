@@ -22,6 +22,8 @@ public class InvoiceLineDTO {
         this.unitOfMeasure = unitOfMeasure;
     }
 
+
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InvoiceLineDTO{");

@@ -17,7 +17,7 @@ public class InvoiceHeaderJson {
     final int numberOfLines;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public InvoiceHeaderJson(@JsonProperty("id") String storeId, @JsonProperty("date") Date date, @JsonProperty("totalDollarAmount") Double totalDollarAmount, @JsonProperty("numberOfLines") int numberOfLines) {
+    public InvoiceHeaderJson(@JsonProperty("storeId") String storeId, @JsonProperty("date") Date date, @JsonProperty("totalDollarAmount") Double totalDollarAmount, @JsonProperty("numberOfLines") int numberOfLines) {
         this.storeId = storeId;
         this.date = date;
         this.totalDollarAmount = totalDollarAmount;

@@ -50,12 +50,10 @@ public class InvoiceHeader extends PanacheEntity {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("InvoiceHeader{");
-        sb.append("id='").append(id).append('\'');
-        sb.append(", storeId='").append(storeId).append('\'');
+        sb.append("storeId='").append(storeId).append('\'');
         sb.append(", date=").append(date);
         sb.append(", totalDollarAmount=").append(totalDollarAmount);
         sb.append(", numberOfLines=").append(numberOfLines);
-        sb.append(", id=").append(id);
         sb.append('}');
         return sb.toString();
     }
@@ -67,23 +65,19 @@ public class InvoiceHeader extends PanacheEntity {
 
         InvoiceHeader that = (InvoiceHeader) o;
 
-        if (numberOfLines != that.numberOfLines) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (storeId != null ? !storeId.equals(that.storeId) : that.storeId != null) return false;
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
-        return totalDollarAmount != null ? totalDollarAmount.equals(that.totalDollarAmount) : that.totalDollarAmount == null;
+        if (id != that.id) return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (storeId != null ? storeId.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (totalDollarAmount != null ? totalDollarAmount.hashCode() : 0);
+        int result = storeId.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + date.hashCode();
+        result = 31 * result + totalDollarAmount.hashCode();
         result = 31 * result + numberOfLines;
         return result;
     }
-
 
     public String getStoreId() {
         return storeId;

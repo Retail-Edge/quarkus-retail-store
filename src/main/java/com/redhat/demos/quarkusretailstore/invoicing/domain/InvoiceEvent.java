@@ -5,10 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.redhat.demos.quarkusretailstore.utils.JsonUtil;
 import io.debezium.outbox.quarkus.ExportedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 
 public class InvoiceEvent implements ExportedEvent<String, JsonNode>{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(InvoiceEvent.class);
 
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -27,8 +31,10 @@ public class InvoiceEvent implements ExportedEvent<String, JsonNode>{
 
     public static InvoiceEvent from(final InvoiceRecord invoiceRecord) {
 
+        LOGGER.debug("Creating InvoiceEvent from: {}", invoiceRecord);
+
         ObjectNode asJson = mapper.createObjectNode()
-                .put("invoiceId", invoiceRecord.getInvoiceHeader().id)
+                .put("invoiceId", invoiceRecord.getInvoiceId())
                 .put("invoice", JsonUtil.toJson(invoiceRecord));
 
         return new InvoiceEvent(invoiceRecord.invoiceId, asJson, invoiceRecord.getInvoiceHeader().date.toInstant());

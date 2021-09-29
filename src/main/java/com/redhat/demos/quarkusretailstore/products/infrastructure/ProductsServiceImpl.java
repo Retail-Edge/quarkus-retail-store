@@ -28,7 +28,9 @@ public class ProductsServiceImpl implements ProductsService {
     public Collection<ProductMasterDTO> getAllProducts() {
 
         return productMasterRepository.streamAll().map(productMaster -> {
-            return new ProductMasterDTO(productMaster.getSkuId(), productMaster.getDescription());
+            ProductMasterDTO productMasterDTO = new ProductMasterDTO(productMaster.getSkuId(), productMaster.getDescription());
+            LOGGER.debug("Retrieved productMasterDTO: {}", productMasterDTO);
+            return productMasterDTO;
         }).collect(Collectors.toList());
     }
 

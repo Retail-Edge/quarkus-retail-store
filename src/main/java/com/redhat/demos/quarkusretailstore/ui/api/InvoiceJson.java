@@ -2,9 +2,7 @@ package com.redhat.demos.quarkusretailstore.ui.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -26,16 +24,6 @@ public class InvoiceJson {
         this.invoiceHeader = invoiceHeader;
         this.invoiceLines = invoiceLines;
         this.customerName = customerName;
-    }
-
-    public InvoiceJson(final InvoiceDTO invoiceDTO) {
-        this.invoiceId = invoiceDTO.getInvoiceId();
-        this.invoiceHeader =  new InvoiceHeaderJson(invoiceDTO.getInvoiceHeader());
-        this.customerName = invoiceDTO.getCustomerName();
-        this.invoiceLines = new ArrayList<>(invoiceDTO.getInvoiceLines().size());
-        invoiceDTO.getInvoiceLines().forEach(invoiceLineDTO -> {
-            this.invoiceLines.add(new InvoiceLineJson(invoiceLineDTO));
-        });
     }
 
     @Override

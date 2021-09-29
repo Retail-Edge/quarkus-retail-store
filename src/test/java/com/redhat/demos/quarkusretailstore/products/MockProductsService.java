@@ -2,6 +2,7 @@ package com.redhat.demos.quarkusretailstore.products;
 
 import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
 import com.redhat.demos.quarkusretailstore.products.api.ProductsService;
+import io.quarkus.test.Mock;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;

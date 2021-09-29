@@ -62,7 +62,7 @@ public class InvoicingResource {
                                     invoiceLineJson.getSkuId(),
                                     invoiceLineJson.getBillQuantity(),
                                     invoiceLineJson.getUnitPrice(),
-                                    invoiceLineJson.getExtendedPrice(),
+                                    invoiceLineJson.getUnitPrice() * invoiceLineJson.getBillQuantity(),
                                     invoiceLineJson.getUnitOfMeasure());
                         }).collect(Collectors.toList()),
                         invoiceJson.getCustomerName());

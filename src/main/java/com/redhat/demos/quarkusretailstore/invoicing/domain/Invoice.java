@@ -2,6 +2,9 @@ package com.redhat.demos.quarkusretailstore.invoicing.domain;
 
 import com.redhat.demos.quarkusretailstore.invoicing.api.InvoiceDTO;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
+import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -13,10 +16,7 @@ import java.util.*;
  */
 public class Invoice {
 
-    /**
-     * Brick and mortar location identifier
-     */
-    String storeId;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Invoice.class);
 
     /**
      * The actual invoice
@@ -30,23 +30,27 @@ public class Invoice {
     public static InvoiceEventResult create(final InvoiceDTO invoiceDTO, final Map<String, ProductMaster> products) {
 
         Invoice invoice = new Invoice(invoiceDTO, products);
+        LOGGER.debug("Invoice created: {}", invoice);
         return new InvoiceEventResult(invoice, Arrays.asList(InvoiceEvent.from(invoice.invoiceRecord)));
     }
 
     public Invoice(final InvoiceDTO invoiceDTO, final Map<String, ProductMaster> products) {
 
+        LOGGER.debug("Creating an Invoice from: {}", invoiceDTO);
+
         // create an InvoiceHeader from the DTO
         InvoiceHeader invoiceHeader = new InvoiceHeader();
         invoiceHeader.setDate(invoiceDTO.getInvoiceHeader().getDate());
-        invoiceHeader.setStoreId(storeId);
+        invoiceHeader.setStoreId(invoiceDTO.getInvoiceHeader().getStoreId());
         invoiceHeader.setNumberOfLines(invoiceDTO.getInvoiceHeader().getNumberOfLines());
         invoiceHeader.setTotalDollarAmount(invoiceDTO.getInvoiceHeader().getTotalDollarAmount());
 
         // create a Collection of InvoiceLines from the DTO
         Collection<InvoiceLine> invoiceLines = new ArrayList<>(invoiceDTO.getInvoiceLines().size());
         invoiceDTO.getInvoiceLines().forEach(invoiceLineDTO -> {
+            ProductMaster productMaster = products.get(invoiceLineDTO.getSkuId());
             InvoiceLine invoiceLine = new InvoiceLine(
-                    products.get(invoiceLineDTO.getSkuId()),
+                    productMaster,
                     invoiceLineDTO.getBillQuantity(),
                     invoiceLineDTO.getUnitPrice(),
                     invoiceLineDTO.getUnitOfMeasure()

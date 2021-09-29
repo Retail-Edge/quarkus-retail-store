@@ -15,7 +15,7 @@ public class JsonUtil {
             .registerModules(new JavaTimeModule(),new Jdk8Module());
 
     public static String toJson(final Object object) {
-        LOGGER.debug("marshalling {} to JSON", object.toString());
+        LOGGER.debug("marshalling {} to JSON", object);
         try {
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {

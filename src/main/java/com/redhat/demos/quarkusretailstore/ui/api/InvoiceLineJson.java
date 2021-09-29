@@ -13,16 +13,13 @@ public class InvoiceLineJson {
 
     final Double unitPrice;
 
-    final Double extendedPrice;
-
     final UnitOfMeasure unitOfMeasure;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public InvoiceLineJson(@JsonProperty("skuId") String skuId, @JsonProperty("billQuantity") Double billQuantity, @JsonProperty("unitPrice") Double unitPrice, @JsonProperty("extendedPrice") Double extendedPrice, @JsonProperty("unitOfMeasure") UnitOfMeasure unitOfMeasure) {
+    public InvoiceLineJson(@JsonProperty("skuId") String skuId, @JsonProperty("billQuantity") Double billQuantity, @JsonProperty("unitPrice") Double unitPrice, @JsonProperty("unitOfMeasure") UnitOfMeasure unitOfMeasure) {
         this.skuId = skuId;
         this.billQuantity = billQuantity;
         this.unitPrice = unitPrice;
-        this.extendedPrice = extendedPrice;
         this.unitOfMeasure = unitOfMeasure;
     }
 
@@ -30,7 +27,6 @@ public class InvoiceLineJson {
         this.skuId = invoiceLineDTO.getSkuId();
         this.billQuantity = invoiceLineDTO.getBillQuantity();
         this.unitPrice = invoiceLineDTO.getUnitPrice();
-        this.extendedPrice = invoiceLineDTO.getExtendedPrice();
         this.unitOfMeasure = invoiceLineDTO.getUnitOfMeasure();
     }
 
@@ -40,7 +36,6 @@ public class InvoiceLineJson {
         sb.append("skuId='").append(skuId).append('\'');
         sb.append(", billQuantity=").append(billQuantity);
         sb.append(", unitPrice=").append(unitPrice);
-        sb.append(", extendedPrice=").append(extendedPrice);
         sb.append(", unitOfMeasure=").append(unitOfMeasure);
         sb.append('}');
         return sb.toString();
@@ -56,8 +51,6 @@ public class InvoiceLineJson {
         if (skuId != null ? !skuId.equals(that.skuId) : that.skuId != null) return false;
         if (billQuantity != null ? !billQuantity.equals(that.billQuantity) : that.billQuantity != null) return false;
         if (unitPrice != null ? !unitPrice.equals(that.unitPrice) : that.unitPrice != null) return false;
-        if (extendedPrice != null ? !extendedPrice.equals(that.extendedPrice) : that.extendedPrice != null)
-            return false;
         return unitOfMeasure == that.unitOfMeasure;
     }
 
@@ -66,7 +59,6 @@ public class InvoiceLineJson {
         int result = skuId != null ? skuId.hashCode() : 0;
         result = 31 * result + (billQuantity != null ? billQuantity.hashCode() : 0);
         result = 31 * result + (unitPrice != null ? unitPrice.hashCode() : 0);
-        result = 31 * result + (extendedPrice != null ? extendedPrice.hashCode() : 0);
         result = 31 * result + (unitOfMeasure != null ? unitOfMeasure.hashCode() : 0);
         return result;
     }
@@ -81,10 +73,6 @@ public class InvoiceLineJson {
 
     public Double getUnitPrice() {
         return unitPrice;
-    }
-
-    public Double getExtendedPrice() {
-        return extendedPrice;
     }
 
     public UnitOfMeasure getUnitOfMeasure() {
