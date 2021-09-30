@@ -4,6 +4,7 @@ import com.redhat.demos.quarkusretailstore.inventory.Inventory;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
+import com.redhat.demos.quarkusretailstore.ui.api.LegacyInventoryDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,6 +78,11 @@ public class MockInventoryService implements InventoryService {
                             14, 14)
             )
     );
+
+    @Override
+    public Collection<LegacyInventoryDTO> legacyGetCompleteInventory() {
+        return null;
+    }
 
     @Override
     public Collection<InventoryDTO> getCompeleteInventory() {

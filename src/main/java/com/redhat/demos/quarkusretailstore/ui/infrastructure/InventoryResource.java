@@ -4,6 +4,7 @@ import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
 import com.redhat.demos.quarkusretailstore.inventory.api.NoSuchInventoryRecordException;
 import com.redhat.demos.quarkusretailstore.ui.api.InventoryJson;
+import com.redhat.demos.quarkusretailstore.ui.api.LegacyInventoryDTO;
 import com.redhat.demos.quarkusretailstore.ui.api.LegacyInventoryJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,15 @@ public class InventoryResource {
     InventoryService inventoryService;
 
     @GET
+    public Response legacyGetCompleteInventory() {
+
+        Collection<LegacyInventoryDTO> completeInventory = inventoryService.legacyGetCompleteInventory();
+        LOGGER.debug("Returning {} items", completeInventory.size());
+        return Response.status(Response.Status.OK).entity(inventoryService.getCompeleteInventory()).build();
+    }
+
+    @GET
+    @Path("/v2")
     public Response getCompleteInventory() {
 
         Collection<InventoryDTO> completeInventory = inventoryService.getCompeleteInventory();

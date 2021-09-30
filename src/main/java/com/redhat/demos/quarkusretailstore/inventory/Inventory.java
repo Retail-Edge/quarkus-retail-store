@@ -3,6 +3,7 @@ package com.redhat.demos.quarkusretailstore.inventory;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import com.redhat.demos.quarkusretailstore.products.api.ProductMasterDTO;
+import com.redhat.demos.quarkusretailstore.ui.api.LegacyInventoryDTO;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
@@ -112,6 +113,23 @@ class Inventory extends PanacheEntity {
                 inventoryDTO.getMaximumQuantity(),
                 inventoryDTO.getReservedQuantity()
         );
+    }
+
+    public LegacyInventoryDTO toLegacyInventoryDTO() {
+
+        return new LegacyInventoryDTO(
+                new ProductMasterDTO(this.productMaster.getSkuId(), this.productMaster.getDescription()),
+                this.unitCost,
+                this.maxRetailPrice,
+                this.orderQuantity,
+                this.inStockQuantity,
+                this.backOrderQuantity,
+                this.lastStockDate,
+                this.lastSaleDate,
+                this.minimumQuantity,
+                this.maximumQuantity,
+                this.reservedQuantity,
+                this.availableQuantity());
     }
 
     public InventoryDTO toInventoryDTO() {

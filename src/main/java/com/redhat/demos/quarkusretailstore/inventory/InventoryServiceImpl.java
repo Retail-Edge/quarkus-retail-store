@@ -5,6 +5,7 @@ import com.redhat.demos.quarkusretailstore.inventory.api.NoSuchInventoryRecordEx
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
 import com.redhat.demos.quarkusretailstore.products.ProductMaster;
 import com.redhat.demos.quarkusretailstore.products.ProductMasterRepository;
+import com.redhat.demos.quarkusretailstore.ui.api.LegacyInventoryDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,14 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Inject
     ProductMasterRepository productMasterRepository;
+
+    @Override
+    public Collection<LegacyInventoryDTO> legacyGetCompleteInventory() {
+
+        return inventoryRepository.streamAll().map(inventory -> {
+            return inventory.toLegacyInventoryDTO();
+        }).collect(Collectors.toList());
+    }
 
     @Override
     public Collection<InventoryDTO> getCompeleteInventory() {
