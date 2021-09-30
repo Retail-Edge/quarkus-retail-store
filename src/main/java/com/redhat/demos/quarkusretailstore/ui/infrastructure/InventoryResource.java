@@ -42,7 +42,7 @@ public class InventoryResource {
 
         Collection<InventoryDTO> completeInventory = inventoryService.getCompeleteInventory();
         LOGGER.debug("Returning {} items", completeInventory.size());
-        return Response.status(Response.Status.OK).entity(inventoryService.getCompeleteInventory()).build();
+        return Response.status(Response.Status.OK).entity(completeInventory).build();
     }
 
     @POST

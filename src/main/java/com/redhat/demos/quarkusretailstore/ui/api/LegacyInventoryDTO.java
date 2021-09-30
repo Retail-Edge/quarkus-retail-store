@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class LegacyInventoryDTO {
 
-    final ProductMasterDTO productMasterDTO;
+    final ProductMasterDTO productMaster;
 
     final Double unitCost;
 
@@ -31,7 +31,7 @@ public class LegacyInventoryDTO {
     final int availableQuantity;
 
     public LegacyInventoryDTO(ProductMasterDTO productMasterDTO, Double unitCost, Double maxRetailPrice, int orderQuantity, int inStockQuantity, int backOrderQuantity, Date lastStockDate, Date lastSaleDate, int minimumQuantity, int maximumQuantity, int reservedQuantity, int availableQuantity) {
-        this.productMasterDTO = productMasterDTO;
+        this.productMaster = productMasterDTO;
         this.unitCost = unitCost;
         this.maxRetailPrice = maxRetailPrice;
         this.orderQuantity = orderQuantity;
@@ -48,7 +48,7 @@ public class LegacyInventoryDTO {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("LegacyInventoryDTO{");
-        sb.append("productMasterDTO=").append(productMasterDTO);
+        sb.append("productMasterDTO=").append(productMaster);
         sb.append(", unitCost=").append(unitCost);
         sb.append(", maxRetailPrice=").append(maxRetailPrice);
         sb.append(", orderQuantity=").append(orderQuantity);
@@ -78,7 +78,7 @@ public class LegacyInventoryDTO {
         if (maximumQuantity != that.maximumQuantity) return false;
         if (reservedQuantity != that.reservedQuantity) return false;
         if (availableQuantity != that.availableQuantity) return false;
-        if (productMasterDTO != null ? !productMasterDTO.equals(that.productMasterDTO) : that.productMasterDTO != null)
+        if (productMaster != null ? !productMaster.equals(that.productMaster) : that.productMaster != null)
             return false;
         if (unitCost != null ? !unitCost.equals(that.unitCost) : that.unitCost != null) return false;
         if (maxRetailPrice != null ? !maxRetailPrice.equals(that.maxRetailPrice) : that.maxRetailPrice != null)
@@ -90,7 +90,7 @@ public class LegacyInventoryDTO {
 
     @Override
     public int hashCode() {
-        int result = productMasterDTO != null ? productMasterDTO.hashCode() : 0;
+        int result = productMaster != null ? productMaster.hashCode() : 0;
         result = 31 * result + (unitCost != null ? unitCost.hashCode() : 0);
         result = 31 * result + (maxRetailPrice != null ? maxRetailPrice.hashCode() : 0);
         result = 31 * result + orderQuantity;
@@ -105,8 +105,8 @@ public class LegacyInventoryDTO {
         return result;
     }
 
-    public ProductMasterDTO getProductMasterDTO() {
-        return productMasterDTO;
+    public ProductMasterDTO getProductMaster() {
+        return productMaster;
     }
 
     public Double getUnitCost() {
