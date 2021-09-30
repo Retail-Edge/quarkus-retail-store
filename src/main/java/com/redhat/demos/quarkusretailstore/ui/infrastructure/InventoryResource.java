@@ -4,6 +4,7 @@ import com.redhat.demos.quarkusretailstore.inventory.api.InventoryDTO;
 import com.redhat.demos.quarkusretailstore.inventory.api.InventoryService;
 import com.redhat.demos.quarkusretailstore.inventory.api.NoSuchInventoryRecordException;
 import com.redhat.demos.quarkusretailstore.ui.api.InventoryJson;
+import com.redhat.demos.quarkusretailstore.ui.api.LegacyInventoryJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,42 @@ public class InventoryResource {
     }
 
     @POST
+    public Response legacyCreateInventory(final LegacyInventoryJson legacyInventoryJson) {
+
+        LOGGER.debug("creating inventory from: {}", legacyInventoryJson);
+
+        InventoryDTO inventoryDTO = new InventoryDTO(
+                legacyInventoryJson.getProductMasterJson().getSkuId(),
+                legacyInventoryJson.getUnitCost(),
+                legacyInventoryJson.maxRetailPrice,
+                legacyInventoryJson.orderQuantity,
+                legacyInventoryJson.inStockQuantity,
+                legacyInventoryJson.backOrderQuantity,
+                legacyInventoryJson.lastStockDate,
+                legacyInventoryJson.lastSaleDate,
+                legacyInventoryJson.minimumQuantity,
+                legacyInventoryJson.maximumQuantity,
+                legacyInventoryJson.getReservedQuantity()
+        );
+
+        InventoryDTO result = inventoryService.addInventory(inventoryDTO);
+
+        return Response.status(Response.Status.CREATED).entity(new LegacyInventoryJson(
+                legacyInventoryJson.getProductMasterJson(),
+                result.getUnitCost(),
+                result.getMaxRetailPrice(),
+                result.getOrderQuantity(),
+                result.getInStockQuantity(),
+                result.getBackOrderQuantity(),
+                result.getLastStockDate(),
+                result.getLastSaleDate(),
+                result.getMinimumQuantity(),
+                result.getMaximumQuantity(),
+                result.getReservedQuantity())).build();
+    }
+
+    @POST
+    @Path("/v2")
     public Response createInventory(final InventoryJson inventoryJson) {
 
         LOGGER.debug("creating inventory from: {}", inventoryJson);
