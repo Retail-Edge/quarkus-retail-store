@@ -33,7 +33,7 @@ public class InventoryResource {
 
         Collection<LegacyInventoryDTO> completeInventory = inventoryService.legacyGetCompleteInventory();
         LOGGER.debug("Returning {} items", completeInventory.size());
-        return Response.status(Response.Status.OK).entity(inventoryService.getCompeleteInventory()).build();
+        return Response.status(Response.Status.OK).entity(completeInventory).build();
     }
 
     @GET
