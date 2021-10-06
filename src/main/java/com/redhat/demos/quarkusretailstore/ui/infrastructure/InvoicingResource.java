@@ -23,6 +23,32 @@ public class InvoicingResource {
     @Inject
     InvoiceService invoiceService;
 
+    @POST
+    public Response legacyCreateInvoice(final LegacyInvoiceJson legacyInvoiceJson){
+
+        // Marshall an InvoiceDTO from the InvoiceJson
+        InvoiceDTO invoiceDTO = new InvoiceDTO(
+                legacyInvoiceJson.getInvoiceId(),
+                new InvoiceHeaderDTO(
+                        legacyInvoiceJson.getInvoiceHeader().getStoreId(),
+                        legacyInvoiceJson.getInvoiceHeader().getDate(),
+                        legacyInvoiceJson.getInvoiceHeader().getTotalDollarAmount(),
+                        legacyInvoiceJson.getInvoiceHeader().getNumberOfLines()),
+                legacyInvoiceJson.getInvoiceLines().stream().map(invoiceLineJson -> {
+                    return new InvoiceLineDTO(
+                            invoiceLineJson.getProductMasterJson().getSkuId(),
+                            invoiceLineJson.getBillQuantity(),
+                            invoiceLineJson.getUnitPrice(),
+                            invoiceLineJson.getUnitPrice() * invoiceLineJson.getBillQuantity(),
+                            invoiceLineJson.getUnitOfMeasure());
+                }).collect(Collectors.toList()),
+                legacyInvoiceJson.getCustomerName());
+
+        LOGGER.debug("Sending InvoiceDTO: {}", invoiceDTO);
+        InvoiceDTO result = invoiceService.createInvoice(invoiceDTO);
+
+        return Response.status(Response.Status.CREATED).entity(result).build();
+    }
     /**
      * {
      *     "invoiceId": "60cfbaaf-530e-437e-820d-d06e21979731",
@@ -46,6 +72,7 @@ public class InvoicingResource {
      * @return
      */
     @POST
+    @Path("/v2")
     public Response createInvoice(final InvoiceJson invoiceJson) {
 
         LOGGER.debug("creating invoice from: {}", invoiceJson);
