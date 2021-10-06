@@ -32,7 +32,7 @@ public class InventoryResourceTest {
         RestAssured.registerParser(MediaType.APPLICATION_JSON, Parser.JSON);
 
         given()
-                .when().get("/inventory")
+                .when().get("/inventory/v2")
                 .then()
                 .statusCode(200)
                 .body("$", hasSize(greaterThan(3)));
@@ -95,7 +95,7 @@ public class InventoryResourceTest {
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
-                .request("POST", "/inventory")
+                .request("POST", "/inventory/v2")
                 .then()
                 .statusCode(201);
     }
